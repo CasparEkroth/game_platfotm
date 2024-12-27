@@ -144,9 +144,6 @@ Map *createMap(SDL_Renderer *pRenderer, int level) {
 }
 
 void renderMap(SDL_Renderer *pRenderer, Map *pMap) {
-    //SDL_SetRenderDrawColor(pRenderer,0,255,255,255);
-    //SDL_Rect bacgrund ={0,0,400,10};
-    //SDL_RenderCopy(pRenderer,NULL,NULL,&bacgrund);
     SDL_RenderCopy(pRenderer,pMap->back_dropp,NULL,&pMap->back_dropp_rect);
     for (int y = 0; y < NUMMBER_OF_TILES_Y; y++){
         for (int x = 0; x < NUMMBER_OF_TILES_X; x++){
@@ -166,6 +163,7 @@ void renderMap(SDL_Renderer *pRenderer, Map *pMap) {
             }
         }
     }
+
 }
 
 void createObstacle(Map *pMap,int start_tile){
