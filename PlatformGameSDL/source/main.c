@@ -34,6 +34,8 @@ void printMap(Game *pGame);
 void run_game(Game *pGame,SDL_Event event);
 bool setup(Game *pGame);
 void input(Game *pGame, SDL_Event event);
+void updateGame(Game *pGame);
+void renderGame(Game *pGame);
 
 void meny_oppen(Game *pGame,SDL_Event event);
 void many_input(Game *pGame,SDL_Event event);
@@ -142,15 +144,32 @@ void run_game(Game *pGame,SDL_Event event){
         previousTime = currentTime;
         SDL_Delay(16);
         input(pGame,event);
-        SDL_RenderClear(pGame->pRenderer);
-        renderMap(pGame->pRenderer,pGame->pMap);
-        renderPlayer(pGame->pRenderer,pGame->pPlayer,pGame->pMap);
-        renderOrbs(pGame->pRenderer,pGame->pOrbs,pGame->pPlayer,pGame->pTexturProjektil);
-        renderEnemies(pGame->pRenderer,pGame->Enemies,pGame->pEnemyIMG,pGame->pMap->max_nummber_of_enemis);
-        renderProjektil(pGame->pRenderer,pGame->pMap->max_nummber_of_enemis,pGame->pTexturProjektil,pGame->pEnemyProjektil);
-        renderHode(pGame->pRenderer,pGame->pMap,pGame->pPlayer);
-        SDL_RenderPresent(pGame->pRenderer);
+        updateGame(pGame);
+        renderGame(pGame);
     }
+}
+
+void renderGame(Game *pGame){
+    SDL_RenderClear(pGame->pRenderer);
+    renderMap(pGame->pRenderer,pGame->pMap);
+    renderPlayer(pGame->pRenderer,pGame->pPlayer,pGame->pMap);
+    renderOrbs(pGame->pRenderer,pGame->pOrbs,pGame->pPlayer,pGame->pTexturProjektil);
+    renderEnemies(pGame->pRenderer,pGame->Enemies,pGame->pEnemyIMG,pGame->pMap->max_nummber_of_enemis);
+    renderProjektil(pGame->pRenderer,pGame->pMap->max_nummber_of_enemis,pGame->pTexturProjektil,pGame->pEnemyProjektil);
+    renderHode(pGame->pRenderer,pGame->pMap,pGame->pPlayer);
+    SDL_RenderPresent(pGame->pRenderer);
+}
+
+void updateGame(Game *pGame){
+    enemyAttack(pGame->Enemies,pGame->pPlayer,pGame->pMap->max_nummber_of_enemis,pGame->pEnemyProjektil);
+    terminateEnemy(pGame->Enemies,pGame->pMap,pGame->pEnemyProjektil);
+    death(pGame->pPlayer,pGame->pMap,pGame->Enemies,pGame->pEnemyProjektil);
+    movePlayer(pGame->pPlayer,pGame->pMap);
+    playerGravity(pGame->pPlayer,pGame->pMap);
+    playerAttack(pGame->pPlayer,pGame->pOrbs);
+    updateOrbs(pGame->pOrbs,pGame->pMap,pGame->pPlayer);
+    enemyHit(pGame->Enemies,pGame->pOrbs,pGame->pMap,pGame->pPlayer);
+    updateWorld(pGame->pPlayer,pGame->pMap,pGame->Enemies,pGame->pEnemyProjektil);
 }
 
 void input(Game *pGame, SDL_Event event){
@@ -181,16 +200,6 @@ void input(Game *pGame, SDL_Event event){
         playerJump(pGame->pPlayer);
     }
     if(keys[SDL_SCANCODE_D]) pGame->pPlayer->attack = true;
-
-    enemyAttack(pGame->Enemies,pGame->pPlayer,pGame->pMap->max_nummber_of_enemis,pGame->pEnemyProjektil);
-    terminateEnemy(pGame->Enemies,pGame->pMap,pGame->pEnemyProjektil);
-    death(pGame->pPlayer,pGame->pMap,pGame->Enemies,pGame->pEnemyProjektil);
-    movePlayer(pGame->pPlayer,pGame->pMap);
-    playerGravity(pGame->pPlayer,pGame->pMap);
-    playerAttack(pGame->pPlayer,pGame->pOrbs);
-    updateOrbs(pGame->pOrbs,pGame->pMap,pGame->pPlayer);
-    enemyHit(pGame->Enemies,pGame->pOrbs,pGame->pMap,pGame->pPlayer);
-    updateWorld(pGame->pPlayer,pGame->pMap,pGame->Enemies,pGame->pEnemyProjektil);
 }
 
 // Skriver ut kartan
