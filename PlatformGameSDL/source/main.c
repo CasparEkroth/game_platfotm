@@ -221,7 +221,7 @@ int initialize_window(Game *pGame) {
         fprintf(stderr, "Error initializing SDL_image: %s\n", IMG_GetError());
         return false;
     }
-    if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 1, 2048) < 0){
+    if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0){
         fprintf(stderr,"SDL_mixer could not initialize! Mix_Error: %s\n",Mix_GetError());
         return false;
     }
@@ -276,6 +276,7 @@ void destroy_window(Game *pGame, int max) {
         }
     }
     if (pGame->pPlayer) {
+        Mix_FreeChunk(pGame->pPlayer->death_sound);
         SDL_DestroyTexture(pGame->pPlayer->player_shet);
         SDL_DestroyTexture(pGame->pPlayer->player_shet_left);
         free(pGame->pPlayer);
