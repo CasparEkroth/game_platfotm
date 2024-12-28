@@ -89,30 +89,26 @@ PatrollingEnemy *createPatrollingEnemy(SDL_Renderer *renderer) {
 }
 
 void renderEnemies(SDL_Renderer *pRenderer, Enemy *Enemies[], PatrollingEnemy *pIMG, int nrOfEnemies) {
-    int spriteFrameDelay = 100;  // Delay time in ms for each sprite
-    int attackDelay = 1500;       // Delay before an attack animation
+    int spriteFrameDelay = 100;  
+    int attackDelay = 1500;      
     for (int i = 0; i < nrOfEnemies; i++) {
         if (Enemies[i]) {
-            // Update timers
             if (Enemies[i]->onScrene) {
                 Enemies[i]->attackTimer += Enemies[i]->deltaTime;
             }
             Enemies[i]->animationTimer += Enemies[i]->deltaTime;
-
-            // Handle sprite animation based on state
             if (Enemies[i]->health <= 0) {
                 if (Enemies[i]->animationTimer >= spriteFrameDelay) {
-                    // Dead animation toggle between sprites 2 and 3
+                    
                     Enemies[i]->sprit_index = (Enemies[i]->sprit_index == 2) ? 3 : 2;
                     Enemies[i]->animationTimer = 0;
                 }
             } else if (Enemies[i]->attacking) {
-                if (Enemies[i]->sprit_index == 6) {  // End of attack animation
+                if (Enemies[i]->sprit_index == 6) { 
                     Enemies[i]->attackTimer = 0;
                     Enemies[i]->animationTimer = 0;
                     Enemies[i]->attacking = false;
                     Enemies[i]->sprit_index = 0;  
-                    printf("restet time \n");// Return to idle
                 } else if (Enemies[i]->animationTimer >= spriteFrameDelay) {
                     Enemies[i]->sprit_index = 5;  // Attack animation frame
                     Enemies[i]->animationTimer = 0;

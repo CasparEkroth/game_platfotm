@@ -10,8 +10,8 @@
 #define PLAYER_SIZE_X 32
 #define PLAYER_SIZE_y 64  
 
-#define ANIMATION_DELAY 100      // Delay between frames in milliseconds
-#define NUM_RUN_FRAMES 4         // Number of running frames in the sprite sheet
+#define ANIMATION_DELAY 100      
+#define NUM_RUN_FRAMES 4         
 
 #define MAX_PROJECTILES 10
 #define PROJECTILE_SPEED (TILE_SIZE/4)
