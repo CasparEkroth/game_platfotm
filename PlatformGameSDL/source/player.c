@@ -163,8 +163,8 @@ void movePlayer(Player *pPlayer, Map *pMap) {
 }
 
 void updateWorld(Player *pPlayer, Map *pMap,Enemy *pEnemmis[],Projectile *pProjektils[]) {
-    int cameraOffsetX = pPlayer->player_rect.x - (TILE_SIZE * 15); // Centered horizontally
-    int cameraOffsetY = pPlayer->player_rect.y - (TILE_SIZE * 10); // Centered vertically
+    int cameraOffsetX = pPlayer->player_rect.x - (TILE_SIZE * 15);
+    int cameraOffsetY = pPlayer->player_rect.y - (TILE_SIZE * 10); 
     for (int y = 0; y < NUMMBER_OF_TILES_Y; y++) {
         for (int x = 0; x < NUMMBER_OF_TILES_X; x++) {
             pMap->rect_tail[y][x].x -= cameraOffsetX;
@@ -175,41 +175,40 @@ void updateWorld(Player *pPlayer, Map *pMap,Enemy *pEnemmis[],Projectile *pProje
         pProjektils[i]->projectile.x -= cameraOffsetX;
     }
     
-    static int animationTimer = 0; // Timer to track animation speed
+    static int animationTimer = 0; 
     animationTimer += pPlayer->deltaTime;
-    if (animationTimer > 100) { //(100ms per frame)
+    if (animationTimer > 100) { 
             animationTimer = 0;
             if (pPlayer->attack) {
         if (pPlayer->index_sprite == 12 || pPlayer->index_sprite == 13) {
             pPlayer->index_sprite = (pPlayer->index_sprite % 2 == 0) ? 14 : 15;
         } else if (pPlayer->index_sprite == 14 || pPlayer->index_sprite == 15) {
             pPlayer->index_sprite = (pPlayer->index_sprite % 2 == 0) ? 16 : 17;
-            //pPlayer->attack = false;  // Attack sequence completed
         } else {
             pPlayer->index_sprite = (pPlayer->index_sprite % 2 == 0) ? 12 : 13;
         }
-        }else if (cameraOffsetX > 0) { // Moving right
-            if (!pPlayer->onGrund) { //(jumping/falling)
+        }else if (cameraOffsetX > 0) { 
+            if (!pPlayer->onGrund) { 
                 pPlayer->index_sprite = (cameraOffsetY > 0) ? 8 : 10;
             } else { 
                 if (pPlayer->index_sprite == 2) {
-                    pPlayer->index_sprite = 4; // 2 -> 4
+                    pPlayer->index_sprite = 4; 
                 } else {
-                    pPlayer->index_sprite = 2;//back to 2
+                    pPlayer->index_sprite = 2;
                 }
             }
-        } else if (cameraOffsetX < 0) { // Moving left
-            if (!pPlayer->onGrund) { // (jumping/falling)
+        } else if (cameraOffsetX < 0) {
+            if (!pPlayer->onGrund) { 
                 pPlayer->index_sprite = (cameraOffsetY > 0) ? 9 : 11;
             } else { 
                 if (pPlayer->index_sprite == 3) {
-                    pPlayer->index_sprite = 5; //3 -> 5
+                    pPlayer->index_sprite = 5; 
                 } else {
-                    pPlayer->index_sprite = 3; //back to 3
+                    pPlayer->index_sprite = 3; 
                 }
             }
-        } else if (cameraOffsetX == 0) { //still
-            if (!pPlayer->onGrund) { // In the air
+        } else if (cameraOffsetX == 0) { 
+            if (!pPlayer->onGrund) { 
                 pPlayer->index_sprite = (cameraOffsetY > 0) ? 8 : 10;
             }else{
                 pPlayer->index_sprite = (pPlayer->index_sprite%2==0) ? 0:1; // Default sprite
@@ -224,7 +223,7 @@ void death(Player *pPlayer,Map *pMap,Enemy *pEnemies[],Projectile *pProjektil[])
     pPlayer->respawn++;
     int respawn=0;
     updet_rewspan(pPlayer,pMap,pEnemies);
-    if(pPlayer->player_rect.y>500){
+    if(pPlayer->player_rect.y>500){//death conditions
         pPlayer->lives--;
             for (int x = 0; x < NUMMBER_OF_TILES_X; x++){
                 if(pMap->tails[NUMMBER_OF_TILES_Y-1][x]== 3){
@@ -278,14 +277,14 @@ bool checkCollisionAt(Player *pPlayer, Map *pMap) {
     };
     for (int y = 0; y < NUMMBER_OF_TILES_Y; y++) {
         for (int x = 0; x < NUMMBER_OF_TILES_X; x++) {
-            if (pMap->tails[y][x] == 1) { // Solid tile
+            if (pMap->tails[y][x] == 1) { 
                 if (SDL_HasIntersection(&futureRect, &pMap->rect_tail[y][x])) {
-                    return false; // Collision detected
+                    return false; 
                 }
             }
         }
     }
-    return true; // No collision
+    return true; 
 }
 
 void playerGravity(Player *pPlayer, Map *pMap) {
@@ -294,16 +293,16 @@ void playerGravity(Player *pPlayer, Map *pMap) {
 
     for (int y = 0; y < NUMMBER_OF_TILES_Y; y++) {
         for (int x = 0; x < NUMMBER_OF_TILES_X; x++) {
-            if (pMap->tails[y][x] == 1|| pMap->tails[y][x] == 2 || pMap->tails[y][x] == 3) { // Solid tile
+            if (pMap->tails[y][x] == 1|| pMap->tails[y][x] == 2 || pMap->tails[y][x] == 3) { 
                 SDL_Rect tileRect = pMap->rect_tail[y][x];
                 // Check if the player's feet are on or very near the tile's top
                 if (playerBottom >= tileRect.y && 
-                    playerBottom <= tileRect.y + TILE_SIZE / 4 && // Allow a small tolerance for alignment
+                    playerBottom <= tileRect.y + TILE_SIZE / 4 &&
                     pPlayer->player_rect.x + pPlayer->player_rect.w > tileRect.x && 
                     pPlayer->player_rect.x < tileRect.x + TILE_SIZE) {
                     
                     pPlayer->onGrund = true;
-                    pPlayer->deltaY = 0; // Stop downward movement
+                    pPlayer->deltaY = 0; 
                     pPlayer->player_rect.y = tileRect.y - pPlayer->player_rect.h; // Align player on top of the tile
                     return;
                 }
@@ -324,7 +323,7 @@ void playerGravity(Player *pPlayer, Map *pMap) {
 
 void playerJump(Player *pPlayer) {
     if (pPlayer->onGrund) {
-        pPlayer->deltaY = JUMP_FORCE; // Set initial jump velocity
+        pPlayer->deltaY = JUMP_FORCE; 
         pPlayer->onGrund = false;
     }
 }
@@ -333,7 +332,7 @@ Projectile *setupOrbs(void){
     Projectile *pOrb = malloc(sizeof(Projectile));
     if (!pOrb) {
         printf("Error allocating memory for Orb\n");
-        return NULL;  // Corrected return value
+        return NULL; 
     }
     pOrb->projectile = (SDL_Rect){0, 0, 16, 16};
     pOrb->aktiv = false;
@@ -348,9 +347,9 @@ Projectile *setupEnemyProjektil(int the_enemy,Enemy *Enemies[]){
     if (pEnemyProjektil) {
         pEnemyProjektil->projectile.x = Enemies[the_enemy]->enemy_rect.x;
         pEnemyProjektil->projectile.y = Enemies[the_enemy]->enemy_rect.y;
-        pEnemyProjektil->projectile.w = PROJECTILE_WIDTH;  // Set width
-        pEnemyProjektil->projectile.h = PROJECTILE_HEIGHT; // Set height
-        pEnemyProjektil->aktiv = false; // Initially inactive
+        pEnemyProjektil->projectile.w = PROJECTILE_WIDTH; 
+        pEnemyProjektil->projectile.h = PROJECTILE_HEIGHT; 
+        pEnemyProjektil->aktiv = false; 
         pEnemyProjektil->x = -1;
         pEnemyProjektil->y = 0;
         pEnemyProjektil->distens = 6;
@@ -369,7 +368,7 @@ TexturForProjektil *setupTexturs(SDL_Texture *pPlayer_shet,SDL_Texture *pFrog_sh
 }
 
 void playerAttack(Player *pPlayer, Projectile *pOrb[]){
-    if (!pOrb || pPlayer->nrOfAktivOrbs >= MAX_PROJECTILES) return;  // Added bounds check
+    if (!pOrb || pPlayer->nrOfAktivOrbs >= MAX_PROJECTILES) return;  
 
     if (pPlayer->attack && (pPlayer->index_sprite == 16 || pPlayer->index_sprite == 17)) {
         int currentOrb = pPlayer->nrOfAktivOrbs;
@@ -402,8 +401,8 @@ void updateOrbs(Projectile *pOrb[],Map *pMap, Player *pPlayer){
                 pOrb[i]->projectile.y < pMap->rect_tail[y][x].y + TILE_SIZE){
                     if(pMap->tails[y][x] == 1){
                         removeOrbs(pOrb, i, pPlayer);
-                        i--;  // Adjust index after removal
-                        break;  // Exit tile-check loop early after collision
+                        i--;  
+                        break;  
                     }
                 }
             }
@@ -432,8 +431,6 @@ void renderOrbs(SDL_Renderer *pRenderer, Projectile *pOrb[],Player *pPlayer,Text
                         &pOrb[i]->projectile);
     }
 }
-
-
 
 void enemyHit(Enemy *pEnemies[],Projectile *pOrbs[],Map *pMap,Player *pPlayer){
     for (int i = 0; i < pPlayer->nrOfAktivOrbs; i++){
@@ -475,12 +472,8 @@ void terminateEnemy(Enemy *Enemies[], Map *pMap, Projectile *pEnemyProjektil[]) 
     for (int i = 0; i < pMap->max_nummber_of_enemis; i++) {
         if (Enemies[i] && Enemies[i]->health <= 0 && Enemies[i]->sprit_index == 3) {
             printf("Terminating enemy %d\n", i);
-
-            // Log before freeing
             printf("Before freeing: Enemies[%d] = %p, Projectiles[%d] = %p\n", 
                    i, (void *)Enemies[i], i, (void *)pEnemyProjektil[i]);
-
-            // Free enemy and projectile
             if (Enemies[i]) {
                 free(Enemies[i]);
                 Enemies[i] = NULL;
@@ -489,25 +482,14 @@ void terminateEnemy(Enemy *Enemies[], Map *pMap, Projectile *pEnemyProjektil[]) 
                 free(pEnemyProjektil[i]);
                 pEnemyProjektil[i] = NULL;
             }
-
-            // Shift elements in the array
             for (int j = i; j < pMap->max_nummber_of_enemis - 1; j++) {
                 Enemies[j] = Enemies[j + 1];
                 pEnemyProjektil[j] = pEnemyProjektil[j + 1];
             }
-
-            // Nullify last elements after shift
             Enemies[pMap->max_nummber_of_enemis - 1] = NULL;
             pEnemyProjektil[pMap->max_nummber_of_enemis - 1] = NULL;
-
-            // Reduce enemy count
             pMap->max_nummber_of_enemis--;
-
-            // Recheck current index
             i--;
-
-            // Log state after modification
-            printf("After freeing: Remaining enemies: %d\n", pMap->max_nummber_of_enemis);
         }
     }
 }
@@ -516,57 +498,38 @@ void terminateEnemy(Enemy *Enemies[], Map *pMap, Projectile *pEnemyProjektil[]) 
 
 
 void enemyAttack(Enemy *Enemies[], Player *pPlayer, int nrOfEnemies, Projectile *pEnemyProjektil[]) {
-    int attackDelay = 150;  // Delay between attacks (in milliseconds)
+    int attackDelay = 150; 
     enemy_redar(Enemies, pPlayer, nrOfEnemies); // Find the attacking enemy
     for (int i = 0; i < nrOfEnemies; i++) {
         if (Enemies[i] && Enemies[i]->onScrene && Enemies[i]->sprit_index >= 5) {
-            // Update attack timer
             Enemies[i]->attackTimer += Enemies[i]->deltaTime;
-
-            // Ensure the projectile is active
             if (pEnemyProjektil[i]) {
                 pEnemyProjektil[i]->aktiv = true;
-
-                // Check if enough time has passed to initiate attack
                 if (Enemies[i]->attackTimer >= attackDelay && !Enemies[i]->attacking) {
-                    Enemies[i]->attackTimer = 0;  // Reset attack timer
-                    Enemies[i]->attacking = true; // Set attacking state
-                    Enemies[i]->sprit_index = 4;  // Switch to attack animation
-                    Enemies[i]->animationTimer = 0; // Reset animation timer
-                    //printf("Attack started for enemy %d\n", i);
+                    Enemies[i]->attackTimer = 0;  
+                    Enemies[i]->attacking = true;
+                    Enemies[i]->sprit_index = 4;  
+                    Enemies[i]->animationTimer = 0; 
                 }
-
                 // Handle the projectile's movement and reversal
                 if (Enemies[i]->attacking) {
                     if (pEnemyProjektil[i]->x == -1 && 
                         pEnemyProjektil[i]->projectile.x <= Enemies[i]->enemy_rect.x - (pEnemyProjektil[i]->distens * TILE_SIZE)) {
-                        pEnemyProjektil[i]->x = 1; // Reverse direction to the right
-                        //printf("Projectile reversed: moving right\n");
+                        pEnemyProjektil[i]->x = 1; 
                     } else if (pEnemyProjektil[i]->x == 1 && pEnemyProjektil[i]->projectile.x >= Enemies[i]->enemy_rect.x) {
-                        pEnemyProjektil[i]->x = -1; // Reverse direction to the left
-                        //printf("Projectile reversed: moving left\n");
-
-                        // Deactivate the projectile and finish the attack
+                        pEnemyProjektil[i]->x = -1; 
                         pEnemyProjektil[i]->aktiv = false;
-                        Enemies[i]->sprit_index = 6;  // Set to end attack animation
-                        Enemies[i]->animationTimer = 0; // Reset animation timer
+                        Enemies[i]->sprit_index = 6;  
+                        Enemies[i]->animationTimer = 0; 
                     }
-
                     // Safely adjust projectile width based on direction
                     if (pEnemyProjektil[i]->x == -1) {
                         pEnemyProjektil[i]->projectile.w = SDL_max(pEnemyProjektil[i]->projectile.w + PROJECTILE_SPEED, 0);
                     } else {
                         pEnemyProjektil[i]->projectile.w = SDL_max(pEnemyProjektil[i]->projectile.w - PROJECTILE_SPEED, 0);
                     }
-
-                    // Update projectile position
                     pEnemyProjektil[i]->projectile.x += PROJECTILE_SPEED * pEnemyProjektil[i]->x;
                     pEnemyProjektil[i]->projectile.y += PROJECTILE_SPEED * pEnemyProjektil[i]->y;
-
-                    /*printf("Projectile moving: (%d, %d), nrProjek %d, nrEnemy %d\n",
-                           pEnemyProjektil[i]->projectile.x,
-                           pEnemyProjektil[i]->projectile.y,
-                           i, i);*/
                 }
             }
         }
@@ -585,6 +548,17 @@ void renderProjektil(SDL_Renderer *pRenderer,int nrOfProjektil,TexturForProjekti
     }   
 }
 //kolla om spelaren träffas 
+
+bool playerHit(Player *pPlayer,Projectile *pEnemyProjektil[],Map *pMap){
+    for (int i = 0; i < pMap->max_nummber_of_enemis; i++){
+        if(pEnemyProjektil[i]->aktiv && pEnemyProjektil[i]->projectile.){
+            return true;
+        }
+    }
+    // gör en geneeräl funktoin som tar in två SDL_Rect
+    
+    return false;
+}
 
 /*SDL_SetRenderDrawColor(pRenderer, 255, 0, 0, 255); // Red for player
 SDL_RenderDrawRect(pRenderer, &pPlayer->player_rect);
