@@ -77,5 +77,8 @@ void enemy_redar(Enemy *Enemies[],Player *pPlayer,int nrOfEnemies);
 void enemyAttack(Enemy *Enemies[],Player *pPlayer,int enemy,Projectile *pEnemyProjektil[]);
 void renderProjektil(SDL_Renderer *pRenderer,int nrOfProjektil,TexturForProjektil *pTextur,Projectile *pProjektil[]);
 
+//hållbart
+bool colitino(SDL_Rect A,SDL_Rect B);
+
 
 #endif
