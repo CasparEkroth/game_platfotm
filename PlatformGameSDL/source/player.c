@@ -223,7 +223,12 @@ void death(Player *pPlayer,Map *pMap,Enemy *pEnemies[],Projectile *pProjektil[])
     pPlayer->respawn++;
     int respawn=0;
     updet_rewspan(pPlayer,pMap,pEnemies);
-    if(pPlayer->player_rect.y>500){//death conditions
+    bool die = false;
+    for (int i = 0; i < pMap->max_nummber_of_enemis; i++){
+        die = colitino(pPlayer->player_rect,pProjektil[i]->projectile);
+        if(die)break;
+    }
+    if(pPlayer->player_rect.y>500 ||die){//death conditions
         pPlayer->lives--;
             for (int x = 0; x < NUMMBER_OF_TILES_X; x++){
                 if(pMap->tails[NUMMBER_OF_TILES_Y-1][x]== 3){
@@ -544,17 +549,16 @@ void renderProjektil(SDL_Renderer *pRenderer,int nrOfProjektil,TexturForProjekti
 }
 //kolla om spelaren träffas 
 
-bool playerHit(Player *pPlayer,Projectile *pEnemyProjektil[],Map *pMap){
-    for (int i = 0; i < pMap->max_nummber_of_enemis; i++){
-        if(pEnemyProjektil[i]->aktiv && pEnemyProjektil[i]->projectile.){
+bool colitino(SDL_Rect A,SDL_Rect B){
+    if(A.x + A.w >= B.x && 
+        A.x <= B.x + B.w &&
+        A.y + A.h >= B.y &&
+        A.y <= B.y + B.h){
             return true;
+        }else{
+            return false;
         }
-    }
-    // gör en geneeräl funktoin som tar in två SDL_Rect
-    
-    return false;
 }
-
 /*SDL_SetRenderDrawColor(pRenderer, 255, 0, 0, 255); // Red for player
 SDL_RenderDrawRect(pRenderer, &pPlayer->player_rect);
 
