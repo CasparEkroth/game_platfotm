@@ -389,10 +389,12 @@ void playerAttack(Player *pPlayer, Projectile *pOrb[]){
 void updateOrbs(Projectile *pOrb[],Map *pMap, Player *pPlayer){
     if(pPlayer->nrOfAktivOrbs == 0) return;
     for (int i = 0; i < pPlayer->nrOfAktivOrbs; i++){
+        if (!pOrb[i]) continue;
         pOrb[i]->projectile.x += pOrb[i]->x * PROJECTILE_SPEED;
     }
     //kolla om de träffar ett block
     for (int i = 0; i < pPlayer->nrOfAktivOrbs; i++){
+        if (!pOrb[i]) continue;
         for (int y = 0; y < NUMMBER_OF_TILES_Y; y++) {
             for (int x = 0; x < NUMMBER_OF_TILES_X; x++){
             if(pOrb[i]->projectile.x >= pMap->rect_tail[y][x].x && 
@@ -474,14 +476,7 @@ void terminateEnemy(Enemy *Enemies[], Map *pMap, Projectile *pEnemyProjektil[]) 
             printf("Terminating enemy %d\n", i);
             printf("Before freeing: Enemies[%d] = %p, Projectiles[%d] = %p\n", 
                    i, (void *)Enemies[i], i, (void *)pEnemyProjektil[i]);
-            if (Enemies[i]) {
-                free(Enemies[i]);
-                Enemies[i] = NULL;
-            }
-            if (pEnemyProjektil[i]) {
-                free(pEnemyProjektil[i]);
-                pEnemyProjektil[i] = NULL;
-            }
+
             for (int j = i; j < pMap->max_nummber_of_enemis - 1; j++) {
                 Enemies[j] = Enemies[j + 1];
                 pEnemyProjektil[j] = pEnemyProjektil[j + 1];

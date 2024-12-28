@@ -148,10 +148,6 @@ int nummber_of_enemies(Map *pMap){
     return nummber;
 }
 
-/*
-void enemyAttack(Enemy *Enemies[],Player *pPlayer){//patoling 
-    
-}*/
 
 /*
 void flyingMove(Enemy *enemy) {
