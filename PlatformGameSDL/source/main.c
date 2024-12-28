@@ -228,7 +228,7 @@ int initialize_window(Game *pGame) {
     pGame->pWindow = SDL_CreateWindow(
         NULL, // Titel
         SDL_WINDOWPOS_CENTERED, // x
-        SDL_WINDOWPOS_CENTERED, // y
+        SDL_WINDOWPOS_CENTERED, // y 
         WINDOW_WIDTH, 
         WINDOW_HEIGHT, 
         0 // Flags
