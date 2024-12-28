@@ -163,7 +163,6 @@ void renderMap(SDL_Renderer *pRenderer, Map *pMap) {
             }
         }
     }
-
 }
 
 void createObstacle(Map *pMap,int start_tile){
