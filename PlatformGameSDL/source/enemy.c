@@ -154,7 +154,3 @@ void flyingMove(Enemy *enemy) {
     enemy->enemy_rect.y += (int)(sin(SDL_GetTicks() / 500.0) * enemy->typeData.flying.flySpeed);
 }
 */
-
-
-
-
