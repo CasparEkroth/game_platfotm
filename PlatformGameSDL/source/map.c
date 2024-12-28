@@ -4,6 +4,7 @@
 #include "map.h"
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_mixer.h>
 #include <stdlib.h> 
 #include <stdbool.h>
 #include<time.h>
@@ -16,9 +17,13 @@ Meny *createMeny(SDL_Renderer *pRenderer){
     }
     pMeny->open = true;
     pMeny->font = TTF_OpenFont("/Users/macbook/Desktop/SDL/PlatformGameSDL/resourses/RubikMaps-Regular.ttf",24);
-
     if(!pMeny->font){
         fprintf(stderr,"Error: Loding font: %s\n", TTF_GetError());
+        return false;
+    }
+    pMeny->jungulMusic= Mix_LoadMUS("/Users/macbook/Documents/GitHub/game_platfotm/PlatformGameSDL/resourses/jungle-music.mp3");
+    if(!pMeny->jungulMusic){
+        fprintf(stderr,"Falide to load music Mix_Error: %s\n",Mix_GetError());
         return false;
     }
     SDL_Color textColor = {0, 0, 0, 255};    

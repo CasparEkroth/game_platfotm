@@ -58,6 +58,7 @@ int main(){
 }
 
 void meny_oppen(Game *pGame,SDL_Event event){
+    Mix_PlayMusic(pGame->pMeny->jungulMusic,-1);
     while (pGame->pMeny->open){
         many_input(pGame,event);
         SDL_Delay(16);
@@ -212,12 +213,16 @@ void printMap(Game *pGame) {
 
 // Initialiserar SDL och skapar fönster
 int initialize_window(Game *pGame) {
-    if (SDL_Init(SDL_INIT_EVERYTHING) != 0 || TTF_Init() != 0) {
-        fprintf(stderr, "Error initializing SDL.\n");
+    if (SDL_Init(SDL_INIT_EVERYTHING) != 0 || TTF_Init() != 0 || SDL_Init(SDL_INIT_AUDIO) < 0){
+        fprintf(stderr, "Error initializing SDL. %s\n", SDL_GetError());
         return false;
     }
     if (IMG_Init(IMG_INIT_PNG) == 0) {
         fprintf(stderr, "Error initializing SDL_image: %s\n", IMG_GetError());
+        return false;
+    }
+    if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0){
+        fprintf(stderr,"SDL_mixer could not initialize! Mix_Error: %s\n",Mix_GetError());
         return false;
     }
     pGame->pWindow = SDL_CreateWindow(
@@ -271,6 +276,7 @@ void destroy_window(Game *pGame, int max) {
         }
     }
     if (pGame->pPlayer) {
+        Mix_FreeChunk(pGame->pPlayer->death_sound);
         SDL_DestroyTexture(pGame->pPlayer->player_shet);
         SDL_DestroyTexture(pGame->pPlayer->player_shet_left);
         free(pGame->pPlayer);
@@ -284,12 +290,15 @@ void destroy_window(Game *pGame, int max) {
         for (int i = 0; i < OPTION; i++) {
             SDL_DestroyTexture(pGame->pMeny->meny_option[i]);
         }
+        Mix_FreeMusic(pGame->pMeny->jungulMusic);
         SDL_DestroyTexture(pGame->pMeny->meny_backgrund);
         TTF_CloseFont(pGame->pMeny->font);
         free(pGame->pMeny);
     }
+
     if (pGame->pRenderer) SDL_DestroyRenderer(pGame->pRenderer);
     if (pGame->pWindow) SDL_DestroyWindow(pGame->pWindow);
+    Mix_CloseAudio();
     TTF_Quit();
     IMG_Quit();
     SDL_Quit();

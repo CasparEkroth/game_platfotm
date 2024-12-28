@@ -30,6 +30,7 @@ typedef struct {
     bool onGrund,attack;
     int deltaX,deltaY,deltaTime;;
     int lives,respawn,nrOfAktivOrbs;
+    Mix_Chunk *death_sound;
 } Player;
 
 typedef struct {

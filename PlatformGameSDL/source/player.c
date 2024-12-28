@@ -38,6 +38,11 @@ Player *createPlayer(SDL_Renderer *pRenderer){
     }
     SDL_FreeSurface(playerSurface);
     SDL_FreeSurface(playerSurface_left);
+    pPlayer->death_sound = Mix_LoadWAV("/Users/macbook/Documents/GitHub/game_platfotm/PlatformGameSDL/resourses/death.wav");
+    if(!pPlayer->death_sound){
+        fprintf(stderr,"Falide to load sound effect!(player death) Mix_Error: %s\n",Mix_GetError());
+        return false;
+    }
     //-- utgångsläge
     pPlayer->diffrent_player_sprits[0] = (SDL_Rect){40,13,100,170};
     //-- left utgångsläge
@@ -175,6 +180,7 @@ void death(Player *pPlayer,Map *pMap,Enemy *pEnemies[],Projectile *pProjektil[])
     }
     if(pPlayer->player_rect.y>500 ||die){//death conditions
         pPlayer->lives--;
+        Mix_PlayChannel(-1, pPlayer->death_sound, 0);
             for (int x = 0; x < NUMMBER_OF_TILES_X; x++){
                 if(pMap->tails[NUMMBER_OF_TILES_Y-1][x]== 3){
                     respawn =x-VISIBLE_WINDOW_X/2;
