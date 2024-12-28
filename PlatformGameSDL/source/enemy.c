@@ -110,23 +110,21 @@ void renderEnemies(SDL_Renderer *pRenderer, Enemy *Enemies[], PatrollingEnemy *p
                     Enemies[i]->attacking = false;
                     Enemies[i]->sprit_index = 0;  
                 } else if (Enemies[i]->animationTimer >= spriteFrameDelay) {
-                    Enemies[i]->sprit_index = 5;  // Attack animation frame
+                    Enemies[i]->sprit_index = 5;  
                     Enemies[i]->animationTimer = 0;
                 }
             } else if (Enemies[i]->attackTimer >= attackDelay) {
-                Enemies[i]->sprit_index = 4;  // Start attack animation
+                Enemies[i]->sprit_index = 4;  
                 Enemies[i]->attacking = true;
                 Enemies[i]->animationTimer = 0;
             } else if (Enemies[i]->sprit_index == 1 && Enemies[i]->animationTimer >= spriteFrameDelay) {
-                Enemies[i]->sprit_index = 0;  // Return to idle animation
+                Enemies[i]->sprit_index = 0;  
                 Enemies[i]->animationTimer = 0;
             }
-
-            // Render the current sprite
             SDL_RenderCopy(pRenderer, 
-                           pIMG->patrollin_frog_shet, 
-                           &pIMG->enemy_sprites[Enemies[i]->sprit_index], 
-                           &Enemies[i]->enemy_rect);
+                        pIMG->patrollin_frog_shet, 
+                        &pIMG->enemy_sprites[Enemies[i]->sprit_index], 
+                        &Enemies[i]->enemy_rect);
         }
     }
 }
