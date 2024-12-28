@@ -106,7 +106,6 @@ bool setup(Game *pGame) {
     pGame->pPlayer = createPlayer(pGame->pRenderer);
     if (!pGame->pPlayer) {
         fprintf(stderr, "Error creating player.\n");
-        //freeMap(pGame->pMap);  // Free map to prevent memory leaks
         return false;
     }
     pGame->pEnemyIMG = createPatrollingEnemy(pGame->pRenderer);
@@ -202,7 +201,6 @@ void input(Game *pGame, SDL_Event event){
     if(keys[SDL_SCANCODE_D]) pGame->pPlayer->attack = true;
 }
 
-// Skriver ut kartan
 void printMap(Game *pGame) {
     for (int i = 0; i < NUMMBER_OF_TILES_Y; i++) {
         for (int x = 0; x < NUMMBER_OF_TILES_X; x++) {
@@ -257,7 +255,6 @@ void destroy_window(Game *pGame, int max) {
             }
         }
     }
-
     if (pGame->pEnemyIMG->patrollin_frog_shet) SDL_DestroyTexture(pGame->pEnemyIMG->patrollin_frog_shet);
     if (pGame->pMap) {
         SDL_DestroyTexture(pGame->pMap->tail_shet);
@@ -265,7 +262,6 @@ void destroy_window(Game *pGame, int max) {
         SDL_DestroyTexture(pGame->pMap->back_dropp);
         free(pGame->pMap);
     }
-
     if (pGame->pOrbs) {
         for (int i = 0; i < pGame->pPlayer->nrOfAktivOrbs; i++) {
             if (pGame->pOrbs[i] != NULL) {
@@ -274,19 +270,16 @@ void destroy_window(Game *pGame, int max) {
             }
         }
     }
-
     if (pGame->pPlayer) {
         SDL_DestroyTexture(pGame->pPlayer->player_shet);
         SDL_DestroyTexture(pGame->pPlayer->player_shet_left);
         free(pGame->pPlayer);
     }
-
     if (pGame->pTexturProjektil) {
         SDL_DestroyTexture(pGame->pTexturProjektil->pFrog_shet);
         SDL_DestroyTexture(pGame->pTexturProjektil->pPlayer_shet);
         free(pGame->pTexturProjektil);
     }
-
     if (pGame->pMeny) {
         for (int i = 0; i < OPTION; i++) {
             SDL_DestroyTexture(pGame->pMeny->meny_option[i]);
@@ -295,10 +288,8 @@ void destroy_window(Game *pGame, int max) {
         TTF_CloseFont(pGame->pMeny->font);
         free(pGame->pMeny);
     }
-
     if (pGame->pRenderer) SDL_DestroyRenderer(pGame->pRenderer);
     if (pGame->pWindow) SDL_DestroyWindow(pGame->pWindow);
-
     TTF_Quit();
     IMG_Quit();
     SDL_Quit();

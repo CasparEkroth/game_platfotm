@@ -307,7 +307,6 @@ Projectile *setupEnemyProjektil(int the_enemy,Enemy *Enemies[]){
     return pEnemyProjektil;
 }
 
-
 TexturForProjektil *setupTexturs(SDL_Texture *pPlayer_shet,SDL_Texture *pFrog_shet){
     TexturForProjektil *pTextur = malloc(sizeof(TexturForProjektil));
     pTextur->player_sprite = (SDL_Rect){676,73,40,40};
@@ -480,7 +479,6 @@ void enemyAttack(Enemy *Enemies[], Player *pPlayer, int nrOfEnemies, Projectile 
         }
     }
 }
-
 
 void renderProjektil(SDL_Renderer *pRenderer,int nrOfProjektil,TexturForProjektil *pTextur,Projectile *pProjektil[]){
     for (int i = 0; i < nrOfProjektil; i++){//enemy

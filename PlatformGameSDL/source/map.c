@@ -4,12 +4,12 @@
 #include "map.h"
 #include <SDL.h>
 #include <SDL_image.h>
-#include <stdlib.h> // För malloc
+#include <stdlib.h> 
 #include <stdbool.h>
 #include<time.h>
 
 Meny *createMeny(SDL_Renderer *pRenderer){
-    Meny *pMeny = malloc(sizeof(Meny)); // ger minne 
+    Meny *pMeny = malloc(sizeof(Meny));  
     if(!pMeny){
         fprintf(stderr,"Error: Could not allocate memory for Meny.\n");
         return false;
@@ -163,7 +163,6 @@ void renderMap(SDL_Renderer *pRenderer, Map *pMap) {
             }
         }
     }
-
 }
 
 void createObstacle(Map *pMap,int start_tile){
