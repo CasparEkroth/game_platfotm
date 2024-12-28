@@ -39,96 +39,41 @@ Player *createPlayer(SDL_Renderer *pRenderer){
     SDL_FreeSurface(playerSurface);
     SDL_FreeSurface(playerSurface_left);
     //-- utgångsläge
-    pPlayer->diffrent_player_sprits[0].y = 13;
-    pPlayer->diffrent_player_sprits[0].x = 40;
-    pPlayer->diffrent_player_sprits[0].h = 170;
-    pPlayer->diffrent_player_sprits[0].w = 100;
+    pPlayer->diffrent_player_sprits[0] = (SDL_Rect){40,13,100,170};
     //-- left utgångsläge
-    pPlayer->diffrent_player_sprits[1].y = 13;
-    pPlayer->diffrent_player_sprits[1].x = 1392;
-    pPlayer->diffrent_player_sprits[1].h = 170;
-    pPlayer->diffrent_player_sprits[1].w = 100;
+    pPlayer->diffrent_player_sprits[1] = (SDL_Rect){1392,13,100,170};
     //-- springer 
-    pPlayer->diffrent_player_sprits[2].y = 595;
-    pPlayer->diffrent_player_sprits[2].x = 422;
-    pPlayer->diffrent_player_sprits[2].h = 170;
-    pPlayer->diffrent_player_sprits[2].w = 100;
+    pPlayer->diffrent_player_sprits[2] = (SDL_Rect){422,595,100,170};
     //--springer åt left
-    pPlayer->diffrent_player_sprits[3].y = 598;
-    pPlayer->diffrent_player_sprits[3].x = 1007;
-    pPlayer->diffrent_player_sprits[3].h = 170;
-    pPlayer->diffrent_player_sprits[3].w = 100;
+    pPlayer->diffrent_player_sprits[3] = (SDL_Rect){1007,598,100,170};
     //-- spring 2
-    pPlayer->diffrent_player_sprits[4].y = 595;
-    pPlayer->diffrent_player_sprits[4].x = 1190;
-    pPlayer->diffrent_player_sprits[4].h = 170;
-    pPlayer->diffrent_player_sprits[4].w = 100;
+    pPlayer->diffrent_player_sprits[4] = (SDL_Rect){1190,595,100,170};
     //-- spring 2 left
-    pPlayer->diffrent_player_sprits[5].y = 598;
-    pPlayer->diffrent_player_sprits[5].x = 244;
-    pPlayer->diffrent_player_sprits[5].h = 170;
-    pPlayer->diffrent_player_sprits[5].w = 100;
+    pPlayer->diffrent_player_sprits[5] = (SDL_Rect){244,598,100,170};
     //-- shift
-    pPlayer->diffrent_player_sprits[6].y = 836;
-    pPlayer->diffrent_player_sprits[6].x = 599;
-    pPlayer->diffrent_player_sprits[6].h = 120;
-    pPlayer->diffrent_player_sprits[6].w = 120;
+    pPlayer->diffrent_player_sprits[6] = (SDL_Rect){599,836,120,120};
     //-- shift left
-    pPlayer->diffrent_player_sprits[7].y = 837;
-    pPlayer->diffrent_player_sprits[7].x = 807;//ok
-    pPlayer->diffrent_player_sprits[7].h = 120;
-    pPlayer->diffrent_player_sprits[7].w = 120;
+    pPlayer->diffrent_player_sprits[7] = (SDL_Rect){807,837,120,120};
     //-- hopp upp
-    pPlayer->diffrent_player_sprits[8].y = 970;
-    pPlayer->diffrent_player_sprits[8].x = 421;
-    pPlayer->diffrent_player_sprits[8].h = 170;
-    pPlayer->diffrent_player_sprits[8].w = 100;
+    pPlayer->diffrent_player_sprits[8] = (SDL_Rect){421,970,100,170};
     //-- hopp upp left
-    pPlayer->diffrent_player_sprits[9].y = 967;
-    pPlayer->diffrent_player_sprits[9].x = 812;
-    pPlayer->diffrent_player_sprits[9].h = 170;
-    pPlayer->diffrent_player_sprits[9].w = 100;
+    pPlayer->diffrent_player_sprits[9] = (SDL_Rect){812,967,100,170};
     //-- hopp ner 
-    pPlayer->diffrent_player_sprits[10].y = 997;
-    pPlayer->diffrent_player_sprits[10].x = 995;
-    pPlayer->diffrent_player_sprits[10].h = 170;
-    pPlayer->diffrent_player_sprits[10].w = 100;
+    pPlayer->diffrent_player_sprits[10] = (SDL_Rect){995,997,100,170};
     //-- hopp ner left
-    pPlayer->diffrent_player_sprits[11].y = 1000;
-    pPlayer->diffrent_player_sprits[11].x = 430;
-    pPlayer->diffrent_player_sprits[11].h = 170;
-    pPlayer->diffrent_player_sprits[11].w = 100;
+    pPlayer->diffrent_player_sprits[11] = (SDL_Rect){430,1000,100,170};
     //-- ATTACK mov1
-    pPlayer->diffrent_player_sprits[12].y = 1541;
-    pPlayer->diffrent_player_sprits[12].x = 620;//
-    pPlayer->diffrent_player_sprits[12].h = 170;
-    pPlayer->diffrent_player_sprits[12].w = 100;
+    pPlayer->diffrent_player_sprits[12] = (SDL_Rect){620,1541,100,170};
     //-- ATTACK mov1 left
-    pPlayer->diffrent_player_sprits[13].y = 1541;
-    pPlayer->diffrent_player_sprits[13].x = 814;
-    pPlayer->diffrent_player_sprits[13].h = 170;
-    pPlayer->diffrent_player_sprits[13].w = 100;
+    pPlayer->diffrent_player_sprits[13] = (SDL_Rect){814,1541,100,170};
     //-- ATTACK mov2 
-    pPlayer->diffrent_player_sprits[14].y = 1541;
-    pPlayer->diffrent_player_sprits[14].x = 805;
-    pPlayer->diffrent_player_sprits[14].h = 170;
-    pPlayer->diffrent_player_sprits[14].w = 130;
+    pPlayer->diffrent_player_sprits[14] = (SDL_Rect){805,1541,130,170};
     //-- ATTACK mov2 left
-    pPlayer->diffrent_player_sprits[15].y = 1541;
-    pPlayer->diffrent_player_sprits[15].x = 578;
-    pPlayer->diffrent_player_sprits[15].h = 170;
-    pPlayer->diffrent_player_sprits[15].w = 130;
+    pPlayer->diffrent_player_sprits[15] = (SDL_Rect){578,1541,130,170};
     //-- ATTACK mov3
-    pPlayer->diffrent_player_sprits[16].y = 1566;
-    pPlayer->diffrent_player_sprits[16].x = 995;
-    pPlayer->diffrent_player_sprits[16].h = 170;
-    pPlayer->diffrent_player_sprits[16].w = 110;
+    pPlayer->diffrent_player_sprits[16] = (SDL_Rect){995,1566,110,170};
     //-- ATTACK mov3 left
-    pPlayer->diffrent_player_sprits[17].y = 1566;
-    pPlayer->diffrent_player_sprits[17].x = 425;
-    pPlayer->diffrent_player_sprits[17].h = 170;
-    pPlayer->diffrent_player_sprits[17].w = 110;
-
+    pPlayer->diffrent_player_sprits[17] = (SDL_Rect){425,1566,110,170};
     return pPlayer;
 }
 
