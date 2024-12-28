@@ -3,6 +3,7 @@
 #include <SDL.h>
 #include <stdbool.h>
 #include <SDL_ttf.h>
+#include <SDL_mixer.h>
 
 #define NUMMBER_OF_TILES_Y 7
 #define NUMMBER_OF_TILES_X 200
@@ -45,6 +46,8 @@ typedef struct {
     SDL_Texture* levels[NUMMBER_OF_LEVELS];
     SDL_Texture* meny_backgrund;
     SDL_Rect meny_rect;
+    //music
+    Mix_Music *jungulMusic;
 }Meny;
 
 
