@@ -48,11 +48,14 @@ int main(){
     if (!initialize_window(&g)) return false;
     SDL_Event event;
     g.pMeny = createMeny(g.pRenderer);
-    meny_oppen(&g,event);
-    if(!setup(&g)) return false;
-    int max = g.pMap->max_nummber_of_enemis;
-    printMap(&g);
-    run_game(&g,event);
+    int max = 0;
+    while (g.pMeny->open){
+        meny_oppen(&g,event);
+        if(!setup(&g)) return false;
+        max = g.pMap->max_nummber_of_enemis;
+        //printMap(&g);
+        run_game(&g,event);
+    }
     destroy_window(&g,max);
     return 0;
 }
@@ -81,7 +84,7 @@ void many_input(Game *pGame,SDL_Event event){
             break;
         }
     }
-    for (int i = 0; i < OPTION; i++){
+    for (int i = 0; i < OPTION-1; i++){//-1 pga gameOver
         if(mouseX >= pGame->pMeny->many_plasment[i].x && mouseX <= pGame->pMeny->many_plasment[i].x+pGame->pMeny->many_plasment[i].w &&
         mouseY >= pGame->pMeny->many_plasment[i].y && mouseY <= pGame->pMeny->many_plasment[i].y+pGame->pMeny->many_plasment[i].h){
         pGame->pMeny->many_plasment[i].x = TILE_SIZE*2;
@@ -147,6 +150,11 @@ void run_game(Game *pGame,SDL_Event event){
         input(pGame,event);
         updateGame(pGame);
         renderGame(pGame);
+        if(pGame->pPlayer->lives<=0){
+            pGame->game_is_running = false;
+            pGame->pMeny->open = true;
+            pGame->pMeny->gameOver = true;
+        }
     }
 }
 
