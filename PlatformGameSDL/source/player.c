@@ -129,7 +129,6 @@ void updateWorld(Player *pPlayer, Map *pMap,Enemy *pEnemmis[],Projectile *pProje
         pEnemmis[i]->enemy_rect.x -= cameraOffsetX;
         pProjektils[i]->projectile.x -= cameraOffsetX;
     }
-    
     static int animationTimer = 0; 
     animationTimer += pPlayer->deltaTime;
     if (animationTimer > 100) { 
@@ -180,8 +179,10 @@ void death(Player *pPlayer,Map *pMap,Enemy *pEnemies[],Projectile *pProjektil[])
     updet_rewspan(pPlayer,pMap,pEnemies);
     bool die = false;
     for (int i = 0; i < pMap->max_nummber_of_enemis; i++){
-        die = colitino(pPlayer->player_rect,pProjektil[i]->projectile);
-        if(die)break;
+        if (pProjektil[i] != NULL){
+            die = colitino(pPlayer->player_rect,pProjektil[i]->projectile);
+            if(die)break;
+        }
     }
     if(pPlayer->player_rect.y>500 ||die){//death conditions
         pPlayer->lives--;
