@@ -8,7 +8,7 @@
 #define NUMMBER_OF_TILES_Y 7
 #define NUMMBER_OF_TILES_X 200
 #define TILE_SIZE 32
-#define INDEX_OF_TILES 4
+#define INDEX_OF_TILES 5
 
 #define VISIBLE_WINDOW_X 30
 #define VISIBLE_WINDOW_Y 15
