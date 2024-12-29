@@ -1,17 +1,17 @@
-# Variabler för kompilatorn och flaggor
-CC=gcc-14
-CFLAGS=-c -g -I/opt/homebrew/include/SDL2 -I/opt/homebrew/include/SDL2_image -I/opt/homebrew/include/SDL2_ttf -I/opt/homebrew/include/SDL2_mixer
-LDFLAGS=-I/opt/homebrew/include/SDL2 -L/opt/homebrew/lib -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
+# Variables for compiler and flags
+CC=clang
+CFLAGS=-fsanitize=address -g -c -I/opt/homebrew/include/SDL2 -I/opt/homebrew/include/SDL2_image -I/opt/homebrew/include/SDL2_ttf -I/opt/homebrew/include/SDL2_mixer
+LDFLAGS=-fsanitize=address -I/opt/homebrew/include/SDL2 -L/opt/homebrew/lib -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
 
-# Filnamn
+# File names
 OBJ=main.o map.o player.o enemy.o
 EXEC=PlatformGameSDL
 
-# Länkning
+# Linking
 $(EXEC): $(OBJ)
 	$(CC) $(OBJ) -o $(EXEC) $(LDFLAGS)
 
-# Kompilera källkod
+# Compile source code
 main.o: source/main.c
 	$(CC) $(CFLAGS) source/main.c -o main.o
 
@@ -23,10 +23,11 @@ player.o: source/player.c
 
 enemy.o: source/enemy.c
 	$(CC) $(CFLAGS) source/enemy.c -o enemy.o
-# Rensa binärer
+
+# Clean binaries
 clean:
 	rm -f *.o $(EXEC)
 
-# Kör programmet
+# Run the program
 run: $(EXEC)
 	./$(EXEC)

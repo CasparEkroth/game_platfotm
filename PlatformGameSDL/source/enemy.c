@@ -13,6 +13,7 @@ Enemy *createEnemy(SDL_Renderer *pRenderer, int enemyType,Map *pMap) {
         fprintf(stderr, "Failed to allocate memory for enemy\n");
         return NULL;
     }
+    enemy->attackTimer =0;
     enemy->health = 30;
     enemy->deltaTime = 0;
     enemy->animationTimer = 0;

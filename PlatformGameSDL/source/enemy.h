@@ -6,7 +6,7 @@
 //#include "player.h"
 
 #define DIFRENT_TYPE_OF_ENEMY 2
-#define DIFRENT_SPRITES 6
+#define DIFRENT_SPRITES 7
 
 #define NUMMBER_OF_ENEMIS 50
 #define ENEMIES_SPEED (TILE_SIZE/4)

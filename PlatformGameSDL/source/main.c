@@ -123,12 +123,13 @@ bool setup(Game *pGame) {
         }
     }
     for (int  i = 0; i < MAX_PROJECTILES; i++){
-        pGame->pOrbs[i] = setupOrbs();
-    }
-    pGame->pTexturProjektil = setupTexturs(pGame->pPlayer->player_shet,pGame->pEnemyIMG->patrollin_frog_shet);
-    if(!pGame->pOrbs){
+        pGame->pOrbs[i] = setupOrbs();    
+        if(!pGame->pOrbs[i]){
         fprintf(stderr,"Failed to create orbs.\n");
     }
+    }
+    pGame->pTexturProjektil = setupTexturs(pGame->pPlayer->player_shet,pGame->pEnemyIMG->patrollin_frog_shet);
+
     return true;
 }
 
@@ -228,7 +229,7 @@ int initialize_window(Game *pGame) {
     pGame->pWindow = SDL_CreateWindow(
         NULL, // Titel
         SDL_WINDOWPOS_CENTERED, // x
-        SDL_WINDOWPOS_CENTERED, // y
+        SDL_WINDOWPOS_CENTERED, // y 
         WINDOW_WIDTH, 
         WINDOW_HEIGHT, 
         0 // Flags
@@ -248,7 +249,7 @@ int initialize_window(Game *pGame) {
 }
 
 void destroy_window(Game *pGame, int max) {
-    if (pGame->Enemies) {
+    if (pGame->Enemies[0] == NULL) {
         for (int i = 0; i < max; i++) {
             if (pGame->Enemies[i]) {
                 free(pGame->Enemies[i]);
@@ -267,7 +268,7 @@ void destroy_window(Game *pGame, int max) {
         SDL_DestroyTexture(pGame->pMap->back_dropp);
         free(pGame->pMap);
     }
-    if (pGame->pOrbs) {
+    if (pGame->pOrbs[0] == NULL) {
         for (int i = 0; i < pGame->pPlayer->nrOfAktivOrbs; i++) {
             if (pGame->pOrbs[i] != NULL) {
                 free(pGame->pOrbs[i]);

@@ -22,6 +22,11 @@ Player *createPlayer(SDL_Renderer *pRenderer){
     pPlayer->player_rect.y = TILE_SIZE*(VISIBLE_WINDOW_Y-3);
     pPlayer->player_rect.h = TILE_SIZE*2;
     pPlayer->player_rect.w = TILE_SIZE;
+    pPlayer->deltaX = 0;
+    pPlayer->deltaY = 0;  // Ensure deltaY starts at 0
+    pPlayer->deltaTime = 0;
+    pPlayer->onGrund = true;  // Assume player starts on ground
+
     //--- sprits
     pPlayer->index_sprite = 0;
     SDL_Surface* playerSurface = IMG_Load("/Users/macbook/Desktop/SDL/PlatformGameSDL/resourses/player-sprite+Orb.png");
@@ -246,7 +251,6 @@ bool checkCollisionAt(Player *pPlayer, Map *pMap) {
 void playerGravity(Player *pPlayer, Map *pMap) {
     pPlayer->onGrund = false; // Assume the player is in the air
     int playerBottom = pPlayer->player_rect.y + pPlayer->player_rect.h;
-
     for (int y = 0; y < NUMMBER_OF_TILES_Y; y++) {
         for (int x = 0; x < NUMMBER_OF_TILES_X; x++) {
             if (pMap->tails[y][x] == 1|| pMap->tails[y][x] == 2 || pMap->tails[y][x] == 3) { 
@@ -422,10 +426,8 @@ void enemy_redar(Enemy *Enemies[],Player *pPlayer,int nrOfEnemies){
 
 void terminateEnemy(Enemy *Enemies[], Map *pMap, Projectile *pEnemyProjektil[]) {
     if (pMap->max_nummber_of_enemis <= 0) {
-        fprintf(stderr, "No enemies to terminate.\n");
         return;
     }
-
     for (int i = 0; i < pMap->max_nummber_of_enemis; i++) {
         if (Enemies[i] && Enemies[i]->health <= 0 && Enemies[i]->sprit_index == 3) {
             printf("Terminating enemy %d\n", i);

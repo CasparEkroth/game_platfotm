@@ -16,6 +16,7 @@ Meny *createMeny(SDL_Renderer *pRenderer){
         return false;
     }
     pMeny->open = true;
+    pMeny->gameOver = false;
     pMeny->font = TTF_OpenFont("/Users/macbook/Desktop/SDL/PlatformGameSDL/resourses/RubikMaps-Regular.ttf",24);
     if(!pMeny->font){
         fprintf(stderr,"Error: Loding font: %s\n", TTF_GetError());
@@ -31,7 +32,8 @@ Meny *createMeny(SDL_Renderer *pRenderer){
     SDL_Surface* play = TTF_RenderText_Solid(pMeny->font, "PLAY", textColor);
     SDL_Surface* score = TTF_RenderText_Solid(pMeny->font, "SCORE", textColor);
     SDL_Surface* quit = TTF_RenderText_Solid(pMeny->font, "QUIT", textColor);
-    if(play == NULL || score == NULL || quit == NULL || backgrund == NULL){
+    SDL_Surface* gameOver = TTF_RenderText_Solid(pMeny->font, "GAME OVER", textColor);
+    if(play == NULL || score == NULL || quit == NULL || backgrund == NULL || gameOver == NULL){
         fprintf(stderr,"Error: creating Text/backgrund surface. %s\n",SDL_GetError());
         return false;
     }
@@ -39,10 +41,12 @@ Meny *createMeny(SDL_Renderer *pRenderer){
     pMeny->meny_option[0] = SDL_CreateTextureFromSurface(pRenderer,play);
     pMeny->meny_option[1] = SDL_CreateTextureFromSurface(pRenderer,score);
     pMeny->meny_option[2] = SDL_CreateTextureFromSurface(pRenderer,quit);
+    pMeny->meny_option[3] = SDL_CreateTextureFromSurface(pRenderer,gameOver);
     SDL_FreeSurface(backgrund);
     SDL_FreeSurface(play);
     SDL_FreeSurface(score);
     SDL_FreeSurface(quit);
+    SDL_FreeSurface(gameOver);
     for (int i = 0; i < OPTION; i++){
         if(pMeny->meny_option[i] == NULL){
             fprintf(stderr,"Error: creating textrur for text: %s\n",SDL_GetError());
@@ -69,6 +73,10 @@ Meny *createMeny(SDL_Renderer *pRenderer){
     pMeny->many_plasment[2].y = TILE_SIZE*5;
     pMeny->many_plasment[2].w = TILE_SIZE*4;
     pMeny->many_plasment[2].h = TILE_SIZE;
+    //-- gameOver
+    int a = (VISIBLE_WINDOW_X/2)-5;
+    int b = (VISIBLE_WINDOW_Y/2)-1; 
+    pMeny->many_plasment[3] =(SDL_Rect){a*TILE_SIZE,b*TILE_SIZE,10*TILE_SIZE,2*TILE_SIZE};
     return pMeny;
 }
 
@@ -77,6 +85,7 @@ void renderMeny(Meny *pMeny,SDL_Renderer *pRenderer){
     SDL_RenderCopy(pRenderer,pMeny->meny_option[0],NULL,&pMeny->many_plasment[0]);
     SDL_RenderCopy(pRenderer,pMeny->meny_option[1],NULL,&pMeny->many_plasment[1]);
     SDL_RenderCopy(pRenderer,pMeny->meny_option[2],NULL,&pMeny->many_plasment[2]);
+    if(pMeny->gameOver)SDL_RenderCopy(pRenderer,pMeny->meny_option[3],NULL,&pMeny->many_plasment[3]);
 }
 
 Map *createMap(SDL_Renderer *pRenderer, int level) {
