@@ -21,7 +21,7 @@
 #define JUMP_FORCE -10
 
 //meny
-#define OPTION 3
+#define OPTION 4
 #define NUMMBER_OF_LEVELS 3
 
 typedef struct {
@@ -38,7 +38,7 @@ typedef struct {
 
 typedef struct {
     //fornts ,play, score, quite
-    bool open;
+    bool open,gameOver;
     TTF_Font* font; 
     SDL_Rect many_plasment[OPTION];
     SDL_Texture* meny_option[OPTION];
