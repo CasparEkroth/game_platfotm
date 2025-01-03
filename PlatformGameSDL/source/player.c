@@ -408,6 +408,8 @@ void enemyHit(Enemy *pEnemies[],Projectile *pOrbs[],Map *pMap,Player *pPlayer){
                     pEnemies[j]->animationTimer = 0;
                     pEnemies[j]->health -= PLAYER_DAMEGE; 
                     printf("treff %d\n",pEnemies[j]->health);
+            }else if (pOrbs[i]->projectile.x<0 || pOrbs[i]->projectile.x > VISIBLE_WINDOW_X*TILE_SIZE){
+                    removeOrbs(pOrbs,i,pPlayer);
             }
         }
         
@@ -493,9 +495,9 @@ void renderProjektil(SDL_Renderer *pRenderer,int nrOfProjektil,TexturForProjekti
     for (int i = 0; i < nrOfProjektil; i++){//enemy
         if(pProjektil[i]->aktiv){
             SDL_RenderCopy(pRenderer,pTextur->pFrog_shet,&pTextur->frog_sptites,&pProjektil[i]->projectile);
-            SDL_SetRenderDrawColor(pRenderer,255,0,0,255);
+            /*SDL_SetRenderDrawColor(pRenderer,255,0,0,255);
             SDL_Rect A = pProjektil[i]->projectile;
-            SDL_RenderDrawRect(pRenderer,&A);
+            SDL_RenderDrawRect(pRenderer,&A);*/
         }
     }   
 }
