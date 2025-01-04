@@ -25,6 +25,7 @@ typedef struct {
     TexturForProjektil *pTexturProjektil;
     PatrollingEnemy *pEnemyIMG;
     bool game_is_running;
+    int level;
 } Game;
 
 int initialize_window(Game *pGame);
@@ -36,6 +37,7 @@ bool setup(Game *pGame);
 void input(Game *pGame, SDL_Event event);
 void updateGame(Game *pGame);
 void renderGame(Game *pGame);
+void updateLevel(Game *pGame);
 
 void meny_oppen(Game *pGame,SDL_Event event);
 void many_input(Game *pGame,SDL_Event event);
@@ -44,6 +46,7 @@ bool keys[SDL_NUM_SCANCODES] = {false};
 
 int main(){
     Game g = {0};
+    g.level = 0;
     srand(time(NULL));
     if (!initialize_window(&g)) return false;
     SDL_Event event;
@@ -51,13 +54,21 @@ int main(){
     int max = 0;
     while (g.pMeny->open){
         meny_oppen(&g,event);
+        if(!g.game_is_running) break;
         if(!setup(&g)) return false;
         max = g.pMap->max_nummber_of_enemis;
         //printMap(&g);
         run_game(&g,event);
+        updateLevel(&g);
     }
     destroy_window(&g,max);
     return 0;
+}
+
+void updateLevel(Game *pGame){
+    if(pGame->pMeny->gameOver){
+        return;
+    }else pGame->level++;
 }
 
 void meny_oppen(Game *pGame,SDL_Event event){
@@ -101,7 +112,7 @@ void many_input(Game *pGame,SDL_Event event){
 }
 
 bool setup(Game *pGame) {
-    pGame->pMap = createMap(pGame->pRenderer, 1);
+    pGame->pMap = createMap(pGame->pRenderer, pGame->level);
     if (!pGame->pMap) {
         fprintf(stderr, "Error creating map.\n");
         return false;

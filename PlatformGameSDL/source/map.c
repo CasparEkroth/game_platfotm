@@ -88,6 +88,11 @@ void renderMeny(Meny *pMeny,SDL_Renderer *pRenderer){
     if(pMeny->gameOver)SDL_RenderCopy(pRenderer,pMeny->meny_option[3],NULL,&pMeny->many_plasment[3]);
 }
 
+//map depending on the level 
+//lv 0 no enemies 
+//lv 1 only frogs
+//lv 2 add flying enemies 
+
 Map *createMap(SDL_Renderer *pRenderer, int level) {
     Map *pMap = malloc(sizeof(Map)); // Allokera Map-strukturen
     if (!pMap) {
@@ -155,7 +160,7 @@ Map *createMap(SDL_Renderer *pRenderer, int level) {
     pMap->diffrent_items[0].y =72;
     pMap->diffrent_items[0].h = 32;
     pMap->diffrent_items[0].w = 34;
-    createObstacle(pMap,START_OF_MAP);
+    createObstacle(pMap,START_OF_MAP,level);
     pMap->tails[NUMMBER_OF_TILES_Y-1][NUMMBER_OF_TILES_X-1] = 5;
     // 5 = nesta level
     return pMap;
@@ -185,16 +190,16 @@ void renderMap(SDL_Renderer *pRenderer, Map *pMap) {
     }
 }
 
-void createObstacle(Map *pMap,int start_tile){
+void createObstacle(Map *pMap,int start_tile,int level){
     do
     {
         int slump = rand()%4+1;
     switch (slump)
     {
-    case 1: start_tile = platforms(pMap,start_tile);break;
-    case 2: start_tile = stairsToHeven(pMap,start_tile);break;
-    case 3: start_tile = platformStairs(pMap,start_tile);break;
-    case 4: start_tile = StairDrop(pMap,start_tile);
+    case 1: start_tile = platforms(pMap,start_tile,level);break;
+    case 2: start_tile = stairsToHeven(pMap,start_tile,level);break;
+    case 3: start_tile = platformStairs(pMap,start_tile,level);break;
+    case 4: start_tile = StairDrop(pMap,start_tile,level);
     default:
         break;
     }
@@ -202,7 +207,7 @@ void createObstacle(Map *pMap,int start_tile){
     pMap->tails[NUMMBER_OF_TILES_Y-1][194] = 2;
 }
 
-int platforms(Map *pMap,int start){
+int platforms(Map *pMap,int start,int level){
     for (int y = 0; y < NUMMBER_OF_TILES_Y; y++){
         for(int x = start;x < start+15; x++){
             pMap->tails[y][x]=0;
@@ -213,11 +218,11 @@ int platforms(Map *pMap,int start){
         pMap->tails[NUMMBER_OF_TILES_Y-3][i+9] = 1;
     }
     pMap->tails[NUMMBER_OF_TILES_Y-1][start+16] = 2;
-    pMap->tails[NUMMBER_OF_TILES_Y-4][start+9] = 4;
+    if(level != 0) pMap->tails[NUMMBER_OF_TILES_Y-4][start+9] = 4;
     return (start+15+3);
 }
 
-int stairsToHeven(Map *pMap,int start){
+int stairsToHeven(Map *pMap,int start,int level){
     for (int y = 0; y < NUMMBER_OF_TILES_Y; y++){
         for(int x = start+2;x < start+7; x++){
             pMap->tails[y][x]=0;
@@ -227,14 +232,14 @@ int stairsToHeven(Map *pMap,int start){
         pMap->tails[NUMMBER_OF_TILES_Y-2][i]=1;
         pMap->tails[NUMMBER_OF_TILES_Y-2][i+6]=1;
     }
-    pMap->tails[NUMMBER_OF_TILES_Y-4][start+6] = 4;
+    if(level != 0) pMap->tails[NUMMBER_OF_TILES_Y-4][start+6] = 4;
     pMap->tails[NUMMBER_OF_TILES_Y-3][start+2]=1;
     pMap->tails[NUMMBER_OF_TILES_Y-3][start+6]=1;
     pMap->tails[NUMMBER_OF_TILES_Y-1][start+15] = 2;
     return (start+13+3);
 }
 
-int platformStairs(Map *pMap,int start){
+int platformStairs(Map *pMap,int start,int level){
     for (int  y = 0; y < NUMMBER_OF_TILES_Y; y++){
         for (int x = start; x < start+22; x++){
             pMap->tails[y][x]=0;
@@ -248,11 +253,11 @@ int platformStairs(Map *pMap,int start){
         }
     }
     pMap->tails[NUMMBER_OF_TILES_Y-1][start+23] = 2;
-    pMap->tails[NUMMBER_OF_TILES_Y-5][start+6] = 4;//fiende 
+    if(level != 0) pMap->tails[NUMMBER_OF_TILES_Y-5][start+6] = 4;//fiende 
     return (start+22+3);
 }
 
-int StairDrop(Map *pMap,int start){
+int StairDrop(Map *pMap,int start,int level){
     for (int  y = 0; y < NUMMBER_OF_TILES_Y; y++){
         for (int x = start; x < start+15; x++){
             pMap->tails[y][x]=0;
