@@ -134,11 +134,7 @@ Map *createMap(SDL_Renderer *pRenderer, int level) {
     pMap->back_dropp_rect.w = VISIBLE_WINDOW_X*TILE_SIZE;
     pMap->back_dropp_rect.h = VISIBLE_WINDOW_Y*TILE_SIZE;
     //--
-    pMap->diffrent_tile[0].x = 173;
-    pMap->diffrent_tile[0].y = 230;
-    pMap->diffrent_tile[0].h = 32;
-    pMap->diffrent_tile[0].w = 32;
-    //-----
+    //-----block
     pMap->diffrent_tile[1].x = 305;
     pMap->diffrent_tile[1].y = 0;
     pMap->diffrent_tile[1].h = 25;
@@ -154,7 +150,7 @@ Map *createMap(SDL_Renderer *pRenderer, int level) {
     pMap->diffrent_tile[3].h = 32;
     pMap->diffrent_tile[3].w = 32;
     //-- next lavel
-    pMap->diffrent_tile[4] =(SDL_Rect){32,272,32,32}; 
+    pMap->diffrent_tile[4] =(SDL_Rect){272,32,32,32}; 
     //-- items
     pMap->diffrent_items[0].x =225;
     pMap->diffrent_items[0].y =72;
@@ -162,7 +158,8 @@ Map *createMap(SDL_Renderer *pRenderer, int level) {
     pMap->diffrent_items[0].w = 34;
     createObstacle(pMap,START_OF_MAP,level);
     pMap->tails[NUMMBER_OF_TILES_Y-1][NUMMBER_OF_TILES_X-1] = 5;
-    // 5 = nesta level
+    pMap->tails[NUMMBER_OF_TILES_Y-1][1] = 5;
+
     return pMap;
 }
 
@@ -180,7 +177,7 @@ void renderMap(SDL_Renderer *pRenderer, Map *pMap) {
             case 3:
                 SDL_RenderCopy(pRenderer,pMap->tail_shet,&pMap->diffrent_tile[3],&pMap->rect_tail[y][x]);
                 break;
-            case 4:
+            case 5:
                 SDL_RenderCopy(pRenderer,pMap->tail_shet,&pMap->diffrent_tile[4],&pMap->rect_tail[y][x]);
                 break;
             default:

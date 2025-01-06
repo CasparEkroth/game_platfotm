@@ -249,12 +249,12 @@ bool checkCollisionAt(Player *pPlayer, Map *pMap) {
     return true; 
 }
 
-void playerGravity(Player *pPlayer, Map *pMap) {
+bool playerGravity(Player *pPlayer, Map *pMap) {
     pPlayer->onGrund = false; // Assume the player is in the air
     int playerBottom = pPlayer->player_rect.y + pPlayer->player_rect.h;
     for (int y = 0; y < NUMMBER_OF_TILES_Y; y++) {
         for (int x = 0; x < NUMMBER_OF_TILES_X; x++) {
-            if (pMap->tails[y][x] == 1|| pMap->tails[y][x] == 2 || pMap->tails[y][x] == 3) { 
+            if (pMap->tails[y][x] == 1|| pMap->tails[y][x] == 2 || pMap->tails[y][x] == 3 || pMap->tails[y][x] == 5){ 
                 SDL_Rect tileRect = pMap->rect_tail[y][x];
                 // Check if the player's feet are on or very near the tile's top
                 if (playerBottom >= tileRect.y && 
@@ -265,13 +265,15 @@ void playerGravity(Player *pPlayer, Map *pMap) {
                     pPlayer->onGrund = true;
                     pPlayer->deltaY = 0; 
                     pPlayer->player_rect.y = tileRect.y - pPlayer->player_rect.h; // Align player on top of the tile
-                    return;
+                    if(pMap->tails[y][x] == 5){
+                        return true;
+                    }
+                    return false;
                 }
                 
             }
         }
     }
-
     // Apply gravity if no ground is detected
     if (!pPlayer->onGrund) {
         pPlayer->deltaY += GRAVITY;
@@ -280,7 +282,9 @@ void playerGravity(Player *pPlayer, Map *pMap) {
         }
         pPlayer->player_rect.y += pPlayer->deltaY;
     }
+    return false;
 }
+
 
 void playerJump(Player *pPlayer) {
     if (pPlayer->onGrund) {

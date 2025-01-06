@@ -24,7 +24,7 @@ typedef struct {
     Projectile *pEnemyProjektil[NUMMBER_OF_ENEMIS];
     TexturForProjektil *pTexturProjektil;
     PatrollingEnemy *pEnemyIMG;
-    bool game_is_running;
+    bool game_is_running,new_level;
     int level;
 } Game;
 
@@ -47,6 +47,7 @@ bool keys[SDL_NUM_SCANCODES] = {false};
 int main(){
     Game g = {0};
     g.level = 0;
+    g.new_level = false;
     srand(time(NULL));
     if (!initialize_window(&g)) return false;
     SDL_Event event;
@@ -54,24 +55,30 @@ int main(){
     int max = 0;
     while (g.pMeny->open){
         meny_oppen(&g,event);
+        if(g.new_level){
+            g.game_is_running = true;
+            g.new_level = false;
+        } 
         if(!g.game_is_running) break;
         if(!setup(&g)) return false;
         max = g.pMap->max_nummber_of_enemis;
         //printMap(&g);
         run_game(&g,event);
-        updateLevel(&g);
     }
     destroy_window(&g,max);
     return 0;
 }
 
 void updateLevel(Game *pGame){
-    if(pGame->pMeny->gameOver){
-        return;
-    }else pGame->level++;
+    if(pGame->new_level){
+        pGame->level++;
+        pGame->game_is_running = false;
+        pGame->pMeny->open = true;
+    }
 }
 
 void meny_oppen(Game *pGame,SDL_Event event){
+    if(pGame->new_level) return;
     Mix_PlayMusic(pGame->pMeny->jungulMusic,-1);
     while (pGame->pMeny->open){
         many_input(pGame,event);
@@ -143,7 +150,7 @@ bool setup(Game *pGame) {
     }
     }
     pGame->pTexturProjektil = setupTexturs(pGame->pPlayer->player_shet,pGame->pEnemyIMG->patrollin_frog_shet);
-
+    pGame->new_level = false;
     return true;
 }
 
@@ -166,6 +173,7 @@ void run_game(Game *pGame,SDL_Event event){
             pGame->pMeny->open = true;
             pGame->pMeny->gameOver = true;
         }
+        updateLevel(pGame);
     }
 }
 
@@ -185,7 +193,7 @@ void updateGame(Game *pGame){
     terminateEnemy(pGame->Enemies,pGame->pMap,pGame->pEnemyProjektil);
     death(pGame->pPlayer,pGame->pMap,pGame->Enemies,pGame->pEnemyProjektil);
     movePlayer(pGame->pPlayer,pGame->pMap);
-    playerGravity(pGame->pPlayer,pGame->pMap);
+    pGame->new_level = playerGravity(pGame->pPlayer,pGame->pMap);
     playerAttack(pGame->pPlayer,pGame->pOrbs);
     updateOrbs(pGame->pOrbs,pGame->pMap,pGame->pPlayer);
     enemyHit(pGame->Enemies,pGame->pOrbs,pGame->pMap,pGame->pPlayer);

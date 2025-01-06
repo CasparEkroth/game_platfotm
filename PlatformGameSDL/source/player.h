@@ -55,9 +55,8 @@ void renderHode(SDL_Renderer *pRenderer,Map *pMap,Player *pPlayer);
 
 void movePlayer(Player *pPlayer, Map *pMap);
 void updateWorld(Player *pPlayer, Map *pMap,Enemy *pEnemmis[],Projectile *pProjektils[]);
-
 bool checkCollisionAt(Player *pPlayer, Map *pMap);
-void playerGravity(Player *pPlayer,Map *pMap);
+bool playerGravity(Player *pPlayer,Map *pMap);
 void playerJump(Player *pPlayer);
 
 void death(Player *pPlayer,Map *pMap,Enemy *pEnemies[],Projectile *pProjektil[]);
