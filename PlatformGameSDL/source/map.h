@@ -57,12 +57,12 @@ void renderMeny(Meny *pMeny,SDL_Renderer *pRenderer);
 Map *createMap(SDL_Renderer *pRenderer, int level);
 void renderMap(SDL_Renderer *pRenderer, Map *pMap);
 
-void createObstacle(Map *pMap,int start_tile);
+void createObstacle(Map *pMap,int start_tile,int level);
 
-int platforms(Map *pMap,int start);
-int stairsToHeven(Map *pMap,int start);
-int platformStairs(Map *pMap,int start);
-int StairDrop(Map *pMap,int start);
+int platforms(Map *pMap,int start,int level);
+int stairsToHeven(Map *pMap,int start,int level);
+int platformStairs(Map *pMap,int start,int level);
+int StairDrop(Map *pMap,int start,int level);
 
 
 #endif // MAP_H

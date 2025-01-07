@@ -249,12 +249,12 @@ bool checkCollisionAt(Player *pPlayer, Map *pMap) {
     return true; 
 }
 
-void playerGravity(Player *pPlayer, Map *pMap) {
+bool playerGravity(Player *pPlayer, Map *pMap) {
     pPlayer->onGrund = false; // Assume the player is in the air
     int playerBottom = pPlayer->player_rect.y + pPlayer->player_rect.h;
     for (int y = 0; y < NUMMBER_OF_TILES_Y; y++) {
         for (int x = 0; x < NUMMBER_OF_TILES_X; x++) {
-            if (pMap->tails[y][x] == 1|| pMap->tails[y][x] == 2 || pMap->tails[y][x] == 3) { 
+            if (pMap->tails[y][x] == 1|| pMap->tails[y][x] == 2 || pMap->tails[y][x] == 3 || pMap->tails[y][x] == 5){ 
                 SDL_Rect tileRect = pMap->rect_tail[y][x];
                 // Check if the player's feet are on or very near the tile's top
                 if (playerBottom >= tileRect.y && 
@@ -265,13 +265,15 @@ void playerGravity(Player *pPlayer, Map *pMap) {
                     pPlayer->onGrund = true;
                     pPlayer->deltaY = 0; 
                     pPlayer->player_rect.y = tileRect.y - pPlayer->player_rect.h; // Align player on top of the tile
-                    return;
+                    if(pMap->tails[y][x] == 5){
+                        return true;
+                    }
+                    return false;
                 }
                 
             }
         }
     }
-
     // Apply gravity if no ground is detected
     if (!pPlayer->onGrund) {
         pPlayer->deltaY += GRAVITY;
@@ -280,7 +282,9 @@ void playerGravity(Player *pPlayer, Map *pMap) {
         }
         pPlayer->player_rect.y += pPlayer->deltaY;
     }
+    return false;
 }
+
 
 void playerJump(Player *pPlayer) {
     if (pPlayer->onGrund) {
@@ -408,6 +412,8 @@ void enemyHit(Enemy *pEnemies[],Projectile *pOrbs[],Map *pMap,Player *pPlayer){
                     pEnemies[j]->animationTimer = 0;
                     pEnemies[j]->health -= PLAYER_DAMEGE; 
                     printf("treff %d\n",pEnemies[j]->health);
+            }else if (pOrbs[i]->projectile.x<0 || pOrbs[i]->projectile.x > VISIBLE_WINDOW_X*TILE_SIZE){
+                    removeOrbs(pOrbs,i,pPlayer);
             }
         }
         
@@ -493,9 +499,9 @@ void renderProjektil(SDL_Renderer *pRenderer,int nrOfProjektil,TexturForProjekti
     for (int i = 0; i < nrOfProjektil; i++){//enemy
         if(pProjektil[i]->aktiv){
             SDL_RenderCopy(pRenderer,pTextur->pFrog_shet,&pTextur->frog_sptites,&pProjektil[i]->projectile);
-            SDL_SetRenderDrawColor(pRenderer,255,0,0,255);
+            /*SDL_SetRenderDrawColor(pRenderer,255,0,0,255);
             SDL_Rect A = pProjektil[i]->projectile;
-            SDL_RenderDrawRect(pRenderer,&A);
+            SDL_RenderDrawRect(pRenderer,&A);*/
         }
     }   
 }
@@ -518,3 +524,5 @@ SDL_SetRenderDrawColor(pRenderer, 0, 255, 0, 255); // Green for tiles
 SDL_RenderDrawRect(pRenderer, &pMap->rect_tail[y][x]);*/
 
 //som printf fast med grafik
+
+//SDL_RenderCopyEx()
