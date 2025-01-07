@@ -64,6 +64,7 @@ int main(){
         max = g.pMap->max_nummber_of_enemis;
         //printMap(&g);
         run_game(&g,event);
+        g.pPlayer = 0;
     }
     destroy_window(&g,max);
     return 0;

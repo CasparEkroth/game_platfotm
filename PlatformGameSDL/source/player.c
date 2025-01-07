@@ -524,3 +524,5 @@ SDL_SetRenderDrawColor(pRenderer, 0, 255, 0, 255); // Green for tiles
 SDL_RenderDrawRect(pRenderer, &pMap->rect_tail[y][x]);*/
 
 //som printf fast med grafik
+
+//SDL_RenderCopyEx()
