@@ -33,7 +33,8 @@ Meny *createMeny(SDL_Renderer *pRenderer){
     SDL_Surface* score = TTF_RenderText_Solid(pMeny->font, "SCORE", textColor);
     SDL_Surface* quit = TTF_RenderText_Solid(pMeny->font, "QUIT", textColor);
     SDL_Surface* gameOver = TTF_RenderText_Solid(pMeny->font, "GAME OVER", textColor);
-    if(play == NULL || score == NULL || quit == NULL || backgrund == NULL || gameOver == NULL){
+    SDL_Surface* curenetLevel = TTF_RenderText_Solid(pMeny->font, "LEVEL 0",textColor);
+    if(play == NULL || score == NULL || quit == NULL || backgrund == NULL || gameOver == NULL || curenetLevel == NULL){
         fprintf(stderr,"Error: creating Text/backgrund surface. %s\n",SDL_GetError());
         return false;
     }
@@ -42,6 +43,8 @@ Meny *createMeny(SDL_Renderer *pRenderer){
     pMeny->meny_option[1] = SDL_CreateTextureFromSurface(pRenderer,score);
     pMeny->meny_option[2] = SDL_CreateTextureFromSurface(pRenderer,quit);
     pMeny->meny_option[3] = SDL_CreateTextureFromSurface(pRenderer,gameOver);
+    pMeny->levels[0] = SDL_CreateTextureFromSurface(pRenderer,curenetLevel);
+    SDL_FreeSurface(curenetLevel);
     SDL_FreeSurface(backgrund);
     SDL_FreeSurface(play);
     SDL_FreeSurface(score);
@@ -77,6 +80,7 @@ Meny *createMeny(SDL_Renderer *pRenderer){
     int a = (VISIBLE_WINDOW_X/2)-5;
     int b = (VISIBLE_WINDOW_Y/2)-1; 
     pMeny->many_plasment[3] =(SDL_Rect){a*TILE_SIZE,b*TILE_SIZE,10*TILE_SIZE,2*TILE_SIZE};
+    pMeny->plaesmant_in_level = pMeny->many_plasment[3];
     return pMeny;
 }
 
@@ -266,4 +270,24 @@ int StairDrop(Map *pMap,int start,int level){
     }
     pMap->tails[NUMMBER_OF_TILES_Y-1][start+15] = 2;
     return (start+15+3);
+}
+
+void renderFont(SDL_Renderer *pRenderer,Meny * pMeny){
+    if(!pMeny->gameOver)SDL_RenderCopy(pRenderer,pMeny->levels[0],NULL,&pMeny->plaesmant_in_level);
+
+}
+
+void levelFornt(SDL_Renderer *pRenderer,Meny * pMeny,int level){
+    pMeny->levels[0] = updateText(pRenderer,level,pMeny->levels[0],pMeny->font);
+    pMeny->plaesmant_in_level = pMeny->many_plasment[3];
+}
+
+SDL_Texture* updateText(SDL_Renderer *pRenderer,int chenge,SDL_Texture* pText,TTF_Font *font){
+    char textBuffer[128];
+    snprintf(textBuffer, sizeof(textBuffer), "Level %d", chenge);
+    SDL_Color textColor1 = {0, 0, 0, 255}; //färg
+    SDL_Surface *pTmpSurface = TTF_RenderText_Solid(font, textBuffer, textColor1);
+    pText = SDL_CreateTextureFromSurface(pRenderer, pTmpSurface);
+    SDL_FreeSurface(pTmpSurface);
+    return pText;
 }

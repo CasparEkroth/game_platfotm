@@ -75,6 +75,7 @@ void updateLevel(Game *pGame){
         pGame->level++;
         pGame->game_is_running = false;
         pGame->pMeny->open = true;
+        levelFornt(pGame->pRenderer,pGame->pMeny,pGame->level);
     }
 }
 
@@ -186,19 +187,20 @@ void renderGame(Game *pGame){
     renderEnemies(pGame->pRenderer,pGame->Enemies,pGame->pEnemyIMG,pGame->pMap->max_nummber_of_enemis);
     renderProjektil(pGame->pRenderer,pGame->pMap->max_nummber_of_enemis,pGame->pTexturProjektil,pGame->pEnemyProjektil);
     renderHode(pGame->pRenderer,pGame->pMap,pGame->pPlayer);
+    renderFont(pGame->pRenderer,pGame->pMeny);
     SDL_RenderPresent(pGame->pRenderer);
 }
 
 void updateGame(Game *pGame){
     enemyAttack(pGame->Enemies,pGame->pPlayer,pGame->pMap->max_nummber_of_enemis,pGame->pEnemyProjektil);
     terminateEnemy(pGame->Enemies,pGame->pMap,pGame->pEnemyProjektil);
-    death(pGame->pPlayer,pGame->pMap,pGame->Enemies,pGame->pEnemyProjektil);
+    death(pGame->pPlayer,pGame->pMap,pGame->Enemies,pGame->pEnemyProjektil,pGame->pMeny);
     movePlayer(pGame->pPlayer,pGame->pMap);
     pGame->new_level = playerGravity(pGame->pPlayer,pGame->pMap);
     playerAttack(pGame->pPlayer,pGame->pOrbs);
     updateOrbs(pGame->pOrbs,pGame->pMap,pGame->pPlayer);
     enemyHit(pGame->Enemies,pGame->pOrbs,pGame->pMap,pGame->pPlayer);
-    updateWorld(pGame->pPlayer,pGame->pMap,pGame->Enemies,pGame->pEnemyProjektil);
+    updateWorld(pGame->pPlayer,pGame->pMap,pGame->Enemies,pGame->pEnemyProjektil,pGame->pMeny);
 }
 
 void input(Game *pGame, SDL_Event event){
@@ -318,6 +320,9 @@ void destroy_window(Game *pGame, int max) {
     if (pGame->pMeny) {
         for (int i = 0; i < OPTION; i++) {
             SDL_DestroyTexture(pGame->pMeny->meny_option[i]);
+        }
+        for (int i = 0; i < NUMMBER_OF_LEVELS; i++){
+            SDL_DestroyTexture(pGame->pMeny->levels[i]);
         }
         Mix_FreeMusic(pGame->pMeny->jungulMusic);
         SDL_DestroyTexture(pGame->pMeny->meny_backgrund);
