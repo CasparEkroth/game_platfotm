@@ -22,7 +22,7 @@
 
 //meny
 #define OPTION 4
-#define NUMMBER_OF_LEVELS 3
+#define NUMMBER_OF_LEVELS 1
 
 typedef struct {
     int tails[NUMMBER_OF_TILES_Y][NUMMBER_OF_TILES_X];

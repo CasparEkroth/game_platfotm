@@ -319,6 +319,9 @@ void destroy_window(Game *pGame, int max) {
         for (int i = 0; i < OPTION; i++) {
             SDL_DestroyTexture(pGame->pMeny->meny_option[i]);
         }
+        for (int i = 0; i < NUMMBER_OF_LEVELS; i++){
+            SDL_DestroyTexture(pGame->pMeny->levels[i]);
+        }
         Mix_FreeMusic(pGame->pMeny->jungulMusic);
         SDL_DestroyTexture(pGame->pMeny->meny_backgrund);
         TTF_CloseFont(pGame->pMeny->font);

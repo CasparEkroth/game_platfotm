@@ -33,7 +33,8 @@ Meny *createMeny(SDL_Renderer *pRenderer){
     SDL_Surface* score = TTF_RenderText_Solid(pMeny->font, "SCORE", textColor);
     SDL_Surface* quit = TTF_RenderText_Solid(pMeny->font, "QUIT", textColor);
     SDL_Surface* gameOver = TTF_RenderText_Solid(pMeny->font, "GAME OVER", textColor);
-    if(play == NULL || score == NULL || quit == NULL || backgrund == NULL || gameOver == NULL){
+    SDL_Surface* curenetLevel = TTF_RenderText_Solid(pMeny->font, "LEVEL 0",textColor);
+    if(play == NULL || score == NULL || quit == NULL || backgrund == NULL || gameOver == NULL || curenetLevel == NULL){
         fprintf(stderr,"Error: creating Text/backgrund surface. %s\n",SDL_GetError());
         return false;
     }
@@ -42,6 +43,8 @@ Meny *createMeny(SDL_Renderer *pRenderer){
     pMeny->meny_option[1] = SDL_CreateTextureFromSurface(pRenderer,score);
     pMeny->meny_option[2] = SDL_CreateTextureFromSurface(pRenderer,quit);
     pMeny->meny_option[3] = SDL_CreateTextureFromSurface(pRenderer,gameOver);
+    pMeny->levels[0] = SDL_CreateTextureFromSurface(pRenderer,curenetLevel);
+    SDL_FreeSurface(curenetLevel);
     SDL_FreeSurface(backgrund);
     SDL_FreeSurface(play);
     SDL_FreeSurface(score);

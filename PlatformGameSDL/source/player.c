@@ -107,6 +107,20 @@ void renderHode(SDL_Renderer *pRenderer,Map *pMap,Player *pPlayer){
     }
 }
 
+void renderFont(SDL_Renderer *pRenderer,Meny * pMeny,int level){
+    getCurentlevel();//fixar dennan 
+    if(pMeny->gameOver)SDL_RenderCopy(pRenderer,pMeny->levels[0],NULL,&pMeny->many_plasment[3]);
+
+}
+
+void updateText(int chenge,SDL_Texture* pText){
+    char scoreText[50];
+    sprintf(scoreText, "Score: %d", score);
+    SDL_Color textColor1 = {255, 255, 255, 255}; //färg
+    textSurfaceScore = TTF_RenderText_Solid(font, scoreText, textColor1);
+    textTextureScore = SDL_CreateTextureFromSurface(renderer, textSurfaceScore);
+}
+
 void movePlayer(Player *pPlayer, Map *pMap) {
     if (checkCollisionAt(pPlayer, pMap)) {
         pPlayer->player_rect.x += pPlayer->deltaX;
