@@ -107,20 +107,6 @@ void renderHode(SDL_Renderer *pRenderer,Map *pMap,Player *pPlayer){
     }
 }
 
-void renderFont(SDL_Renderer *pRenderer,Meny * pMeny,int level){
-    getCurentlevel();//fixar dennan 
-    if(pMeny->gameOver)SDL_RenderCopy(pRenderer,pMeny->levels[0],NULL,&pMeny->many_plasment[3]);
-
-}
-
-void updateText(int chenge,SDL_Texture* pText){
-    char scoreText[50];
-    sprintf(scoreText, "Score: %d", score);
-    SDL_Color textColor1 = {255, 255, 255, 255}; //färg
-    textSurfaceScore = TTF_RenderText_Solid(font, scoreText, textColor1);
-    textTextureScore = SDL_CreateTextureFromSurface(renderer, textSurfaceScore);
-}
-
 void movePlayer(Player *pPlayer, Map *pMap) {
     if (checkCollisionAt(pPlayer, pMap)) {
         pPlayer->player_rect.x += pPlayer->deltaX;
@@ -131,7 +117,7 @@ void movePlayer(Player *pPlayer, Map *pMap) {
     }
 }
 
-void updateWorld(Player *pPlayer, Map *pMap,Enemy *pEnemmis[],Projectile *pProjektils[]) {
+void updateWorld(Player *pPlayer, Map *pMap,Enemy *pEnemmis[],Projectile *pProjektils[],Meny *pMeny){
     int cameraOffsetX = pPlayer->player_rect.x - (TILE_SIZE * 15);
     int cameraOffsetY = pPlayer->player_rect.y - (TILE_SIZE * 10); 
     for (int y = 0; y < NUMMBER_OF_TILES_Y; y++) {
@@ -143,6 +129,8 @@ void updateWorld(Player *pPlayer, Map *pMap,Enemy *pEnemmis[],Projectile *pProje
         pEnemmis[i]->enemy_rect.x -= cameraOffsetX;
         pProjektils[i]->projectile.x -= cameraOffsetX;
     }
+    pMeny->plaesmant_in_level.x -= cameraOffsetX;
+    //animeton
     static int animationTimer = 0; 
     animationTimer += pPlayer->deltaTime;
     if (animationTimer > 100) { 
@@ -187,7 +175,7 @@ void updateWorld(Player *pPlayer, Map *pMap,Enemy *pEnemmis[],Projectile *pProje
     pPlayer->deltaX = 0;
 }
 
-void death(Player *pPlayer,Map *pMap,Enemy *pEnemies[],Projectile *pProjektil[]){
+void death(Player *pPlayer,Map *pMap,Enemy *pEnemies[],Projectile *pProjektil[],Meny *pMeny){
     pPlayer->respawn++;
     int respawn=0;
     updet_rewspan(pPlayer,pMap,pEnemies);
@@ -220,6 +208,7 @@ void death(Player *pPlayer,Map *pMap,Enemy *pEnemies[],Projectile *pProjektil[])
                 pProjektil[i]->projectile.w = SDL_min(pProjektil[i]->projectile.w,16);
             }
         }
+        pMeny->plaesmant_in_level = pMeny->many_plasment[3];
     }
 }
 

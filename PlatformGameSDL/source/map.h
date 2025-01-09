@@ -44,6 +44,7 @@ typedef struct {
     SDL_Texture* meny_option[OPTION];
     //levels
     SDL_Texture* levels[NUMMBER_OF_LEVELS];
+    SDL_Rect plaesmant_in_level;
     SDL_Texture* meny_backgrund;
     SDL_Rect meny_rect;
     //music
@@ -63,7 +64,10 @@ int platforms(Map *pMap,int start,int level);
 int stairsToHeven(Map *pMap,int start,int level);
 int platformStairs(Map *pMap,int start,int level);
 int StairDrop(Map *pMap,int start,int level);
-
+//text in game 
+void renderFont(SDL_Renderer *pRenderer,Meny * pMeny);
+SDL_Texture*  updateText(SDL_Renderer *pRenderer,int chenge,SDL_Texture* pText,TTF_Font *font);
+void levelFornt(SDL_Renderer *pRenderer,Meny * pMeny,int level);
 
 #endif // MAP_H
 
