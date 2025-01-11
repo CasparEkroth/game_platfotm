@@ -11,17 +11,15 @@
 #define NUMMBER_OF_ENEMIS 50
 #define ENEMIES_SPEED (TILE_SIZE/4)
 
-//typedef struct Player Player; 
-
 typedef struct {
     SDL_Texture *patrollin_frog_shet;   
     SDL_Rect enemy_sprites[DIFRENT_SPRITES];
 }PatrollingEnemy;
 
-/*typedef struct {
-    SDL_Texture *patrollin_frog_shet; flying   
-    SDL_Rect enemy_sprites[4]; 
-}FlyingEnemy;*/
+typedef struct{
+    SDL_Texture *flying_bat_shet;
+    SDL_Rect enemy_sprite[DIFRENT_SPRITES]; 
+}FlyingEnemy;
 
 typedef struct Enemy {
     SDL_Rect enemy_rect;         
@@ -56,17 +54,8 @@ enum {
     ENEMY_FLYING,
 };
 
-/*typedef struct {
-    bool aktiv;
-    SDL_Rect sprite_rect;
-    SDL_Rect projektil;
-    float x,y;//rikting 
-    int distens; 
-}EnemyProjektil;*/
-
-
-
 PatrollingEnemy *createPatrollingEnemy(SDL_Renderer *renderer);
+FlyingEnemy *creatingFlyingEnemy(SDL_Renderer *pRenderere);
 Enemy *createEnemy(SDL_Renderer *pRenderer, int enemyType,Map *pMap);
 
 void renderEnemies(SDL_Renderer *pRenderer,Enemy *Enemise[],PatrollingEnemy *pIMG, int nrOfEnemies);

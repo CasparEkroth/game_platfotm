@@ -290,6 +290,7 @@ void destroy_window(Game *pGame, int max) {
                 pGame->pEnemyProjektil[i] = NULL;
             }
         }
+        free(pGame->pEnemyIMG);
     }
     if (pGame->pEnemyIMG->patrollin_frog_shet) SDL_DestroyTexture(pGame->pEnemyIMG->patrollin_frog_shet);
     if (pGame->pMap) {

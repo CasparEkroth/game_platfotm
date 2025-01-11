@@ -89,6 +89,21 @@ PatrollingEnemy *createPatrollingEnemy(SDL_Renderer *renderer) {
     return pImige;
 }
 
+FlyingEnemy *creatingFlyingEnemy(SDL_Renderer *pRenderere){
+    FlyingEnemy *pFlying = malloc(sizeof(FlyingEnemy));
+    if(!pFlying){
+        fprintf(stderr,"Faling to allocate memory for flying enemy\n");
+        return NULL;
+    }
+    SDL_Surface *surface = IMG_Load("/Users/macbook/Documents/GitHub/game_platfotm/PlatformGameSDL/resourses/Bat.png");
+    if(!surface){
+        fprintf(stderr,"Feilde to lode flying enemy sptite \n");
+        return false;
+    }
+    //fix sptite rects
+}
+
+
 void renderEnemies(SDL_Renderer *pRenderer, Enemy *Enemies[], PatrollingEnemy *pIMG, int nrOfEnemies) {
     int spriteFrameDelay = 100;  
     int attackDelay = 1500;      
@@ -142,6 +157,8 @@ int nummber_of_enemies(Map *pMap){
     printf("%d\n",nummber);
     return nummber;
 }
+
+
 
 
 /*
