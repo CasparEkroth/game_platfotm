@@ -100,7 +100,15 @@ FlyingEnemy *creatingFlyingEnemy(SDL_Renderer *pRenderere){
         fprintf(stderr,"Feilde to lode flying enemy sptite \n");
         return false;
     }
+    pFlying->flying_bat_shet = SDL_CreateTextureFromSurface(pRenderere,surface);
+    SDL_FreeSurface(surface);
+    if(pFlying->flying_bat_shet){
+        fprintf(stderr, "Failde to create flying texture\n");
+        return false;
+    }
     //fix sptite rects
+    
+    return pFlying;
 }
 
 
