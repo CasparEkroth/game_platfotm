@@ -58,7 +58,7 @@ PatrollingEnemy *createPatrollingEnemy(SDL_Renderer *renderer);
 FlyingEnemy *creatingFlyingEnemy(SDL_Renderer *pRenderere);
 Enemy *createEnemy(SDL_Renderer *pRenderer, int enemyType,Map *pMap);
 
-void renderEnemies(SDL_Renderer *pRenderer,Enemy *Enemise[],PatrollingEnemy *pIMG, int nrOfEnemies);
+void renderEnemies(SDL_Renderer *pRenderer,Enemy *Enemise[],PatrollingEnemy *pIMG, int nrOfEnemies,FlyingEnemy* pTextur);
 int nummber_of_enemies(Map *pMap);
 
 #endif 

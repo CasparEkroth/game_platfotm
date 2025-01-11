@@ -46,8 +46,21 @@ Enemy *createEnemy(SDL_Renderer *pRenderer, int enemyType,Map *pMap) {
         case ENEMY_FLYING:
             enemy->typeData.flying.flySpeed = 1.5f;
             enemy->typeData.flying.hoverHeight = 100;
+                for (int y = 0; y < NUMMBER_OF_TILES_Y; y++){
+                    for (int x = 0; x < NUMMBER_OF_TILES_X; x++){
+                        if(pMap->tails[y][x] == 6){
+                            enemy->enemy_rect.x = pMap->rect_tail[y][x].x - (TILE_SIZE/2);
+                            enemy->enemy_rect.y = pMap->rect_tail[y][x].y - (TILE_SIZE/2);
+                            pMap->tails[y][x] = 0;
+                            enemy->initial_x = enemy->enemy_rect.x;
+                            printf("hitade\n");
+                            place_founde++;
+                    }
+                    if(place_founde!=0)break;
+                }
+                if(place_founde!=0)break;
+            }
             break;
-
         default:
             fprintf(stderr, "Unknown enemy type!\n");
             free(enemy);
@@ -107,16 +120,16 @@ FlyingEnemy *creatingFlyingEnemy(SDL_Renderer *pRenderere){
         return false;
     }
     //fix sptite rects
+    pFlying->enemy_sprite[0] = (SDL_Rect){387,285,70,70};// defult 1
     
     return pFlying;
 }
 
-
-void renderEnemies(SDL_Renderer *pRenderer, Enemy *Enemies[], PatrollingEnemy *pIMG, int nrOfEnemies) {
-    int spriteFrameDelay = 100;  
+void renderEnemies(SDL_Renderer *pRenderer, Enemy *Enemies[], PatrollingEnemy *pIMG, int nrOfEnemies, FlyingEnemy* pTextur) {
+    int spriteFrameDelay = 100;  // nrOfEnemies is the conbine coun of all enemies 
     int attackDelay = 1500;      
     for (int i = 0; i < nrOfEnemies; i++) {
-        if (Enemies[i]) {
+        if (Enemies[i]->enemyType == ENEMY_PATROLLING) {
             if (Enemies[i]->onScrene) {
                 Enemies[i]->attackTimer += Enemies[i]->deltaTime;
             }
@@ -149,20 +162,32 @@ void renderEnemies(SDL_Renderer *pRenderer, Enemy *Enemies[], PatrollingEnemy *p
                         pIMG->patrollin_frog_shet, 
                         &pIMG->enemy_sprites[Enemies[i]->sprit_index], 
                         &Enemies[i]->enemy_rect);
+        }else if (Enemies[i]->enemyType == ENEMY_FLYING){
+            if(Enemies[i]->onScrene){
+                Enemies[i]->attackTimer += Enemies[i]->deltaTime;
+            }
+            Enemies[i]->animationTimer += Enemies[i]->deltaTime;
+
+            SDL_RenderCopy(pRenderer, 
+            pTextur->flying_bat_shet, 
+            &pTextur->enemy_sprite[Enemies[i]->sprit_index], 
+            &Enemies[i]->enemy_rect);
         }
+        
     }
 }
 
-
-
 int nummber_of_enemies(Map *pMap){
-    int nummber=0;
+    int nummber = 0;
+    int nummberOfFlying = 0;
     for (int y = 0; y < NUMMBER_OF_TILES_Y; y++) {
         for (int x = 0; x < NUMMBER_OF_TILES_X; x++){
             nummber += (pMap->tails[y][x] == 4) ?  1:0;
+            nummberOfFlying += (pMap->tails[y][x] == 6) ? 1:0;
         }
     }
-    printf("%d\n",nummber);
+    pMap->nummber_of_flying_enemies = nummberOfFlying;
+    printf("%d, %d\n",nummber,nummberOfFlying);
     return nummber;
 }
 

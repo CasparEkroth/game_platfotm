@@ -24,6 +24,7 @@ typedef struct {
     Projectile *pEnemyProjektil[NUMMBER_OF_ENEMIS];
     TexturForProjektil *pTexturProjektil;
     PatrollingEnemy *pEnemyIMG;
+    FlyingEnemy *pFlyingIMG;
     bool game_is_running,new_level;
     int level;
 } Game;
@@ -133,6 +134,7 @@ bool setup(Game *pGame) {
         return false;
     }
     pGame->pEnemyIMG = createPatrollingEnemy(pGame->pRenderer);
+    pGame->pFlyingIMG = creatingFlyingEnemy(pGame->pRenderer);
     for (int i = 0; i < pGame->pMap->max_nummber_of_enemis; i++){
         pGame->Enemies[i] = createEnemy(pGame->pRenderer, ENEMY_PATROLLING,pGame->pMap);
         if (!pGame->Enemies[i]) {
@@ -145,6 +147,15 @@ bool setup(Game *pGame) {
             return false;
         }
     }
+    for (int  i = pGame->pMap->max_nummber_of_enemis; i <pGame->pMap->nummber_of_flying_enemies; i++){
+        pGame->Enemies[i] = createEnemy(pGame->pRenderer, ENEMY_FLYING,pGame->pMap);
+        pGame->pEnemyProjektil[i] = NULL;
+        if (!pGame->Enemies[i]) {
+            fprintf(stderr, "Failed to create enemy flying.\n");
+            return false;
+        }
+    }
+    pGame->pMap->max_nummber_of_enemis += pGame->pMap->nummber_of_flying_enemies;
     for (int  i = 0; i < MAX_PROJECTILES; i++){
         pGame->pOrbs[i] = setupOrbs();    
         if(!pGame->pOrbs[i]){
@@ -184,7 +195,7 @@ void renderGame(Game *pGame){
     renderMap(pGame->pRenderer,pGame->pMap);
     renderPlayer(pGame->pRenderer,pGame->pPlayer,pGame->pMap);
     renderOrbs(pGame->pRenderer,pGame->pOrbs,pGame->pPlayer,pGame->pTexturProjektil);
-    renderEnemies(pGame->pRenderer,pGame->Enemies,pGame->pEnemyIMG,pGame->pMap->max_nummber_of_enemis);
+    renderEnemies(pGame->pRenderer,pGame->Enemies,pGame->pEnemyIMG,pGame->pMap->max_nummber_of_enemis+pGame->pMap->nummber_of_flying_enemies,pGame->pFlyingIMG);
     renderProjektil(pGame->pRenderer,pGame->pMap->max_nummber_of_enemis,pGame->pTexturProjektil,pGame->pEnemyProjektil);
     renderHode(pGame->pRenderer,pGame->pMap,pGame->pPlayer);
     renderFont(pGame->pRenderer,pGame->pMeny);
@@ -290,9 +301,11 @@ void destroy_window(Game *pGame, int max) {
                 pGame->pEnemyProjektil[i] = NULL;
             }
         }
+        if (pGame->pEnemyIMG->patrollin_frog_shet) SDL_DestroyTexture(pGame->pEnemyIMG->patrollin_frog_shet);
         free(pGame->pEnemyIMG);
+        if(pGame->pFlyingIMG->flying_bat_shet) SDL_DestroyTexture(pGame->pFlyingIMG->flying_bat_shet);
+        free(pGame->pFlyingIMG);
     }
-    if (pGame->pEnemyIMG->patrollin_frog_shet) SDL_DestroyTexture(pGame->pEnemyIMG->patrollin_frog_shet);
     if (pGame->pMap) {
         SDL_DestroyTexture(pGame->pMap->tail_shet);
         SDL_DestroyTexture(pGame->pMap->item_shet);

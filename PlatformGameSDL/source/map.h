@@ -34,6 +34,7 @@ typedef struct {
     SDL_Texture* item_shet;
     SDL_Texture* back_dropp;
     int max_nummber_of_enemis;
+    int nummber_of_flying_enemies;
 } Map;
 
 typedef struct {
