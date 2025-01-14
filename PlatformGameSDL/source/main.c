@@ -21,6 +21,7 @@ typedef struct {
     Player *pPlayer;
     Projectile *pOrbs[MAX_PROJECTILES];
     Enemy *Enemies[NUMMBER_OF_ENEMIS];
+    Enemy *FlyingEnemies[NUMMBER_OF_ENEMIS];
     Projectile *pEnemyProjektil[NUMMBER_OF_ENEMIS];
     TexturForProjektil *pTexturProjektil;
     PatrollingEnemy *pEnemyIMG;
@@ -127,7 +128,7 @@ bool setup(Game *pGame) {
         fprintf(stderr, "Error creating map.\n");
         return false;
     }
-    pGame->pMap->max_nummber_of_enemis = nummber_of_enemies(pGame->pMap);
+    pGame->pMap->max_nummber_of_enemis = nummber_of_enemies(pGame->pMap, 4);
     pGame->pPlayer = createPlayer(pGame->pRenderer);
     if (!pGame->pPlayer) {
         fprintf(stderr, "Error creating player.\n");
@@ -147,7 +148,7 @@ bool setup(Game *pGame) {
             return false;
         }
     }
-    for (int  i = pGame->pMap->max_nummber_of_enemis; i <pGame->pMap->nummber_of_flying_enemies; i++){
+    for (int  i = 0; i <pGame->pMap->nummber_of_flying_enemies; i++){
         pGame->Enemies[i] = createEnemy(pGame->pRenderer, ENEMY_FLYING,pGame->pMap);
         pGame->pEnemyProjektil[i] = NULL;
         if (!pGame->Enemies[i]) {
@@ -155,7 +156,6 @@ bool setup(Game *pGame) {
             return false;
         }
     }
-    pGame->pMap->max_nummber_of_enemis += pGame->pMap->nummber_of_flying_enemies;
     for (int  i = 0; i < MAX_PROJECTILES; i++){
         pGame->pOrbs[i] = setupOrbs();    
         if(!pGame->pOrbs[i]){

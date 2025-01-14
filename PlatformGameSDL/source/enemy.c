@@ -44,6 +44,7 @@ Enemy *createEnemy(SDL_Renderer *pRenderer, int enemyType,Map *pMap) {
             }
             break;
         case ENEMY_FLYING:
+        enemy->enemyType = ENEMY_FLYING;
             enemy->typeData.flying.flySpeed = 1.5f;
             enemy->typeData.flying.hoverHeight = 100;
                 for (int y = 0; y < NUMMBER_OF_TILES_Y; y++){
@@ -115,7 +116,7 @@ FlyingEnemy *creatingFlyingEnemy(SDL_Renderer *pRenderere){
     }
     pFlying->flying_bat_shet = SDL_CreateTextureFromSurface(pRenderere,surface);
     SDL_FreeSurface(surface);
-    if(pFlying->flying_bat_shet){
+    if(!pFlying->flying_bat_shet){
         fprintf(stderr, "Failde to create flying texture\n");
         return false;
     }
@@ -167,7 +168,7 @@ void renderEnemies(SDL_Renderer *pRenderer, Enemy *Enemies[], PatrollingEnemy *p
                 Enemies[i]->attackTimer += Enemies[i]->deltaTime;
             }
             Enemies[i]->animationTimer += Enemies[i]->deltaTime;
-
+                //logitk för att för att röra sig 
             SDL_RenderCopy(pRenderer, 
             pTextur->flying_bat_shet, 
             &pTextur->enemy_sprite[Enemies[i]->sprit_index], 
@@ -177,17 +178,14 @@ void renderEnemies(SDL_Renderer *pRenderer, Enemy *Enemies[], PatrollingEnemy *p
     }
 }
 
-int nummber_of_enemies(Map *pMap){
+int nummber_of_enemies(Map *pMap,int tile_nummber){
     int nummber = 0;
-    int nummberOfFlying = 0;
     for (int y = 0; y < NUMMBER_OF_TILES_Y; y++) {
         for (int x = 0; x < NUMMBER_OF_TILES_X; x++){
-            nummber += (pMap->tails[y][x] == 4) ?  1:0;
-            nummberOfFlying += (pMap->tails[y][x] == 6) ? 1:0;
+            nummber += (pMap->tails[y][x] == tile_nummber) ?  1:0;
         }
     }
-    pMap->nummber_of_flying_enemies = nummberOfFlying;
-    printf("%d, %d\n",nummber,nummberOfFlying);
+    printf("%d - %d\n",nummber,tile_nummber);
     return nummber;
 }
 
