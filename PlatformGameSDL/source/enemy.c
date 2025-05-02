@@ -64,7 +64,7 @@ PatrollingEnemy *createPatrollingEnemy(SDL_Renderer *renderer) {
         return NULL;
     }
 
-    SDL_Surface *surface = IMG_Load("/Users/macbook/Desktop/SDL/PlatformGameSDL/resourses/player-groda.png");
+    SDL_Surface *surface = IMG_Load("resourses/player-groda.png");
     if (!surface) {
         fprintf(stderr, "Failed to load enemy sprite: %s\n", IMG_GetError());
         free(pImige);

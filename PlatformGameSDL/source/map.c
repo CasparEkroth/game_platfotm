@@ -17,18 +17,18 @@ Meny *createMeny(SDL_Renderer *pRenderer){
     }
     pMeny->open = true;
     pMeny->gameOver = false;
-    pMeny->font = TTF_OpenFont("/Users/macbook/Desktop/SDL/PlatformGameSDL/resourses/RubikMaps-Regular.ttf",24);
+    pMeny->font = TTF_OpenFont("resourses/RubikMaps-Regular.ttf",24);
     if(!pMeny->font){
         fprintf(stderr,"Error: Loding font: %s\n", TTF_GetError());
         return false;
     }
-    pMeny->jungulMusic= Mix_LoadMUS("/Users/macbook/Documents/GitHub/game_platfotm/PlatformGameSDL/resourses/jungle-music.mp3");
+    pMeny->jungulMusic= Mix_LoadMUS("resourses/jungle-music.mp3");
     if(!pMeny->jungulMusic){
         fprintf(stderr,"Falide to load music Mix_Error: %s\n",Mix_GetError());
         return false;
     }
     SDL_Color textColor = {0, 0, 0, 255};    
-    SDL_Surface* backgrund = IMG_Load("/Users/macbook/Desktop/SDL/PlatformGameSDL/resourses/pixel-forest-many.webp"); 
+    SDL_Surface* backgrund = IMG_Load("resourses/pixel-forest-many.webp"); 
     SDL_Surface* play = TTF_RenderText_Solid(pMeny->font, "PLAY", textColor);
     SDL_Surface* score = TTF_RenderText_Solid(pMeny->font, "SCORE", textColor);
     SDL_Surface* quit = TTF_RenderText_Solid(pMeny->font, "QUIT", textColor);
@@ -115,9 +115,9 @@ Map *createMap(SDL_Renderer *pRenderer, int level) {
     }
     pMap->tails[NUMMBER_OF_TILES_Y-1][NUMMBER_OF_TILES_X-1] = 1;
 
-    SDL_Surface* tile_surface = IMG_Load("/Users/macbook/Desktop/SDL/PlatformGameSDL/resourses/tile-map.png"); 
-    SDL_Surface* item_surface = IMG_Load("/Users/macbook/Desktop/SDL/PlatformGameSDL/resourses/items.png");
-    SDL_Surface* back_dropp_surface = IMG_Load("/Users/macbook/Desktop/SDL/PlatformGameSDL/resourses/forest-backedropp.png");
+    SDL_Surface* tile_surface = IMG_Load("resourses/tile-map.png"); 
+    SDL_Surface* item_surface = IMG_Load("resourses/items.png");
+    SDL_Surface* back_dropp_surface = IMG_Load("resourses/forest-backedropp.png");
     if(!tile_surface||!item_surface||!back_dropp_surface){
         fprintf(stderr,"Error creating surface(tail, item, back_dropp): %s\n",IMG_GetError());
         return false;

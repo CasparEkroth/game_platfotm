@@ -29,8 +29,8 @@ Player *createPlayer(SDL_Renderer *pRenderer){
 
     //--- sprits
     pPlayer->index_sprite = 0;
-    SDL_Surface* playerSurface = IMG_Load("/Users/macbook/Desktop/SDL/PlatformGameSDL/resourses/player-sprite+Orb.png");
-    SDL_Surface* playerSurface_left = IMG_Load("/Users/macbook/Desktop/SDL/PlatformGameSDL/resourses/player-sprite-left.png");
+    SDL_Surface* playerSurface = IMG_Load("resourses/player-sprite+Orb.png");
+    SDL_Surface* playerSurface_left = IMG_Load("resourses/player-sprite-left.png");
     if(!playerSurface||!playerSurface_left){
         fprintf(stderr,"Erorr creating surface(player): %s\n",IMG_GetError());
         return false;
@@ -43,7 +43,7 @@ Player *createPlayer(SDL_Renderer *pRenderer){
     }
     SDL_FreeSurface(playerSurface);
     SDL_FreeSurface(playerSurface_left);
-    pPlayer->death_sound = Mix_LoadWAV("/Users/macbook/Documents/GitHub/game_platfotm/PlatformGameSDL/resourses/death.wav");
+    pPlayer->death_sound = Mix_LoadWAV("resourses/death.wav");
     if(!pPlayer->death_sound){
         fprintf(stderr,"Falide to load sound effect!(player death) Mix_Error: %s\n",Mix_GetError());
         return false;
